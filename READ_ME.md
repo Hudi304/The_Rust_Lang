@@ -5,3 +5,6 @@ I use this repository to save my progress through "The Book" and eventually smal
 to get myself acquainted with Rust.
 
 ![image](https://rustacean.net/assets/rustacean-flat-noshadow.svg =250x)
+
+![<img src="https://rustacean.net/assets/rustacean-flat-noshadow.svg" width="200px"/>](ssaa)
+
