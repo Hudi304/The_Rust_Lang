@@ -46,7 +46,7 @@ fn chapter_3_common_programming_concepts() {
     // 3.3 functions
 }
 
-fn chapter_4_ownership() {
+fn chapter_4_what_is_ownership() {
     //? HEAP the heap is less organised
     //? - you request a certain amount of space from the heap
     //? - The memory allocator finds an empty spot in the heap that is big enough,
@@ -73,16 +73,148 @@ fn chapter_4_ownership() {
     //? dynamic
 
     // print!("s1={s1}");
-    print!("s2={s2}");
+    println!("s2={s2}");
 
     // ! 🔥 this is an error because now s2 is the owner of the String,
     // ! and there can only be one owner at a time
+
+    //? let s2 = s1; does not make a copy of s1
+
+    //* anatomy of a String 🍏 */
+    //* 🔴 pointer to the memory that holds the contents of the string */
+    //* 🔵 a length   👉 how much memory in bytes the contents of the String are currently using*/
+    //* 🟡 a capacity 👉 the total amount of memory in bytes that the String has received from the allocator
+    //* [these are apparently not the same thing] */
+    //? the String is stored on the stack
+    //? while the data of the String itself is held on the heap
+
+    // ! it would be very expensive to copy the data for every assignment
+    // ! so rust only copies the "pointer"
+
+    // ? if s1 and s2 would point to the same location in memory, when they go
+    // ? out of scope they will call drop on the same location of memory, and this is a bug
+
+    // ? this is not even a shallow copy because RUST invalidates the first copy
+    // ? thus this is called a move
+
+    // ? Rust never deep copies data (maybe just primitives)
+    // ? because their size is known at compile time and they are
+    // ? stored on the stack and operations on the stack are
+    // ? faster than operations on the heap
+    // ? thus there is no reason not to make a "deep copy" of a primitive
+
+    // *  RUST has a special annotation called the Copy trait, that can be
+    // *  placed on types that are stored on the stack.
+    // *  If a type implements the Copy trait variables that use it do not move,
+    // *  but rather are trivially copied, making them still valid after assignment
+    // *  to another variable
+
+    // *  Also Rust will not let you annotate a type with Copy if the type or
+    // *  any of it's parts has implemented the drop trait, so the type itself
+    // *  needs to hae a known size at compile time
+
+    // ---------------------------------------------------
+
+    // *  in order to make a deep copy of the string data on the heap
+    // *  RUST has a method called .clone()
+
+    let s1 = String::from("hello");
+    let s2 = s1.clone();
+
+    println!("s1 = {s1},  s2 = {s2}");
+
+    // ------------------------------------------------------------
+
+    // ?  passing a  variable to a function moves th variable just as assignment does
+
+    fn ownership_demo() {
+        fn takes_ownership(some_string: String) {
+            // some_string comes into scope
+            println!("{}", some_string);
+        }
+        // Here, some_string goes out of scope and `drop` is called. The backing
+        // memory is freed.
+
+        fn makes_copy(some_integer: i32) {
+            // some_integer comes into scope
+            println!("{}", some_integer);
+        }
+
+        let s = String::from("hello"); // s comes into scope
+        takes_ownership(s); // s's value moves into the function...
+                            // ... and so is no longer valid here
+        let x = 5; // x comes into scope
+        makes_copy(x); // x would move into the function,
+                       // but i32 is Copy, so it's okay to still
+                       // use x afterward
+    }
+    // Here, x goes out of scope, then s. But because s's value was moved, nothing
+    // special happens.
+
+    // Here, some_integer goes out of scope. Nothing special happens.
+
+    println!("\nOwnership demo");
+
+    ownership_demo();
+
+    // *  returning a value can also transfer ownership
+
+    fn fn_ownership() {
+        fn gives_ownership() -> String {
+            // gives_ownership will move its
+            // return value into the function
+            // that calls it
+
+            let some_string = String::from("yours"); // some_string comes into scope
+
+            some_string // some_string is returned and
+                        // moves out to the calling
+                        // function
+        }
+
+        // This function takes a String and returns one
+        fn takes_and_gives_back(a_string: String) -> String {
+            // a_string comes into
+            // scope
+
+            a_string // a_string is returned and moves out to the calling function
+        }
+
+        let s1 = gives_ownership(); // gives_ownership moves its return
+                                    // value into s1
+
+        let s2 = String::from("hello"); // s2 comes into scope
+
+        let s3 = takes_and_gives_back(s2); // s2 is moved into
+                                           // takes_and_gives_back, which also
+                                           // moves its return value into s3
+    } // Here, s3 goes out of scope and is dropped. s2 was moved, so nothing
+      // happens. s1 goes out of scope and is dropped.
+
+    fn_ownership();
+}
+
+fn chapter_4_references_and_borrowing() {
+    //? the difference between a pointer and a reference is that
+    //? a reference is guaranteed to point to a valid value of a
+    //? particular type for the life of the reference
+
+    fn compute_len(s: &String) -> usize {
+        s.len()
+    }
+
+    // * the dereference operator '*' exists in RUST
+    // * are values passed to a function dereferenced by default?
+
+    let s1 = String::from("hello");
+    let len = compute_len(&s1);
+    print!("len = {len}")
 }
 
 fn main() {
-    chapter_4_ownership()
     // chapter_2_guessing_game();
     // chapter_3_common_programming_concepts();
+    chapter_4_what_is_ownership();
 }
 
 fn chapter_2_guessing_game() {
