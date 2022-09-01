@@ -208,9 +208,52 @@ fn chapter_4_references_and_borrowing() {
 
     let s1 = String::from("hello");
     let len = compute_len(&s1);
-    print!("len = {len}")
+    print!("len = {len}");
+
+    //? references are of course immutable by default
+
+    fn change(some_string: &String) {
+        // some_string.push_str(", world");
+        //!  cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+    }
+    let s = String::from("hello");
+    change(&s);
+
+    // ?  the problem above can be solved by making the string reference mutable
+
+    // ! in order to avoid a data race :
+    //* */ two or more pointers access the same data at the same time
+    //* */ at least one of the pointers is being used to write to the data
+    //* */ there's no mechanism in use to synchronize access to the data
+
+    //? the ability of the compiler to tell that a reference is no longer being used at a
+    //? point before the end of the scope is called Non-Lexical Lifetimes (NLL)
 }
 
+fn chapter_4_dangling_reference() {
+    //? dangling reference = a pointer that references a location in
+    //? memory that may have been given to someone else, by freeing some
+    //? memory but preserving a pointer to it
+
+    // *  the RUST compiler guarantees that references will never be dangling
+
+    // fn dangle() -> &String {
+    //! missing lifetime specifier
+    //     let s = String::from("hello");
+    //     &s
+    // }
+    // let reference_to_nothing = dangle();
+
+    //* */ there is a feature in RUST that lets you manipulate this behavior, lifetimes
+
+    //Todo ---------- Rules for References ------------------
+    //* */ at any given time you can have :
+    //*        */ on mutable reference
+    //*        */ any number of immutable references
+    //* */ references must always be valid
+
+    
+}
 fn main() {
     // chapter_2_guessing_game();
     // chapter_3_common_programming_concepts();
