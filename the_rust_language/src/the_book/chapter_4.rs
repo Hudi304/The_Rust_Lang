@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 pub fn chapter_4_what_is_ownership() {
     //? HEAP the heap is less organised
     //? - you request a certain amount of space from the heap

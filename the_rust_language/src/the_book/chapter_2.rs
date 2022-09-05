@@ -2,6 +2,7 @@ use std::{cmp::Ordering, io};
 
 use rand::Rng;
 
+#[allow(dead_code)]
 pub fn chapter_2_guessing_game() {
     //! println() is not a function by default, use the macro
 

@@ -11,7 +11,6 @@ mod tests;
 mod the_book;
 
 //? ALIASES
-
 use rust_by_example::*;
 use the_book::chapter_2::chapter_2_guessing_game;
 use the_book::chapter_3::chapter_3_common_programming_concepts;
@@ -30,6 +29,7 @@ fn main() {
 
     // ch_1::comments();
     // ch_1::formatted_print();
+    ch_1::debug();
 
-    tests::tests::inquire();
+    // tests::tests::inquire();
 }

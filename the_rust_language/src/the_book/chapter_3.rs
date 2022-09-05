@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 pub fn chapter_3_common_programming_concepts() {
     // 3.2 data types
     //? let x = 5;
