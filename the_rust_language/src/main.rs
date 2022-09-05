@@ -29,7 +29,8 @@ fn main() {
 
     // ch_1::comments();
     // ch_1::formatted_print();
-    ch_1::debug();
+    // ch_1::debug();
+    ch_1::display();
 
     // tests::tests::inquire();
 }

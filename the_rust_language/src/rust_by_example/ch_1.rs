@@ -148,3 +148,19 @@ pub fn debug() {
         println!("Pretty awesome");
     }
 }
+
+use std::fmt;
+
+pub fn display() {
+    println!("Display implementation example");
+
+    struct Structure(i32);
+
+    impl fmt::Display for Structure {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            return write!(f, "{}", self.0);
+        }
+    }
+
+    println!("Display print : {}", Structure(3));
+}
