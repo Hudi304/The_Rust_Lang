@@ -46,8 +46,14 @@ fn main() {
 
     // ch_3::structures();
     // ch_3::enums();
-    ch_3::enum_linked_list();
+    // ch_3::enum_linked_list();
 
+    // ch_5::casting();
+    // ch_5::literals();
+    // ch_5::inference();
+    // ch_5::aliasing();
+
+    ch_6::from_into();
 
     // tests::tests::inquire();
 
