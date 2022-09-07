@@ -61,3 +61,12 @@ pub fn try_from_try_into() {
     let result: Result<EvenNumber, ()> = 5i32.try_into();
     assert_eq!(result, Err(()));
 }
+
+pub fn string_parsing() {
+    println!("Turbo fish");
+    let parsed: i32 = "5".parse().unwrap();
+    let turbo_parsed = "10".parse::<i32>().unwrap();
+
+    let sum = parsed + turbo_parsed;
+    println!("Sum: {:?}", sum);
+}
