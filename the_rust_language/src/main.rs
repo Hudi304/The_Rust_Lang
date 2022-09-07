@@ -33,27 +33,29 @@ fn main() {
     // chapter_4_slice();
 
     //? Rust by example
-    // ch_1::comments();
-    // ch_1::formatted_print();
-    // ch_1::debug();
-    // ch_1::display();
-    // ch_1::testcase_list();
-    // ch_1::formatting();
+    {
+        // ch_1::comments();
+        // ch_1::formatted_print();
+        // ch_1::debug();
+        // ch_1::display();
+        // ch_1::testcase_list();
+        // ch_1::formatting();
 
-    // ch_2::literals_and_operators();
-    // ch_2::tuples();
-    // ch_2::arrays_and_slices();
+        // ch_2::literals_and_operators();
+        // ch_2::tuples();
+        // ch_2::arrays_and_slices();
 
-    // ch_3::structures();
-    // ch_3::enums();
-    // ch_3::enum_linked_list();
+        // ch_3::structures();
+        // ch_3::enums();
+        // ch_3::enum_linked_list();
 
-    // ch_5::casting();
-    // ch_5::literals();
-    // ch_5::inference();
-    // ch_5::aliasing();
+        // ch_5::casting();
+        // ch_5::literals();
+        // ch_5::inference();
+        // ch_5::aliasing();
 
-    ch_6::from_into();
+        ch_6::from_into();
+    }
 
     // tests::tests::inquire();
 
