@@ -54,7 +54,8 @@ fn main() {
         // ch_5::inference();
         // ch_5::aliasing();
 
-        ch_6::from_into();
+        // ch_6::from_into();
+        ch_6::try_from_try_into();
     }
 
     // tests::tests::inquire();
