@@ -86,7 +86,7 @@ pub fn tuples() {
 }
 
 use std::mem;
-
+#[allow(dead_code, unused)]
 pub fn arrays_and_slices() {
     fn analyze_slice(slice: &[i32]) {
         println!("first element fo the slice: {}", slice[0]);

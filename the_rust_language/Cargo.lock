@@ -74,6 +74,7 @@ version = "0.1.0"
 dependencies = [
  "fmt",
  "inquire",
+ "list",
  "rand",
 ]
 
@@ -104,6 +105,12 @@ name = "libc"
 version = "0.2.132"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8371e4e5341c3a96db127eb2465ac681ced4c433e01dd0e938adbef26ba93ba5"
+
+[[package]]
+name = "list"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "522d1a07016c162161bda4e44a87471282655e828ee613403529a9023e431408"
 
 [[package]]
 name = "lock_api"

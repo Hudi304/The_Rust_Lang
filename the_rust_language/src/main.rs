@@ -22,6 +22,9 @@ use rust_by_example::*;
 /// !rust analyzer crashes on startup sometimes
 
 fn main() {
+    println!("-------------------------");
+    println!("Result : ");
+
     //? The Rust Programming Language
     // chapter_2_guessing_game();
     // chapter_3_common_programming_concepts();
@@ -39,7 +42,12 @@ fn main() {
 
     // ch_2::literals_and_operators();
     // ch_2::tuples();
-    ch_2::arrays_and_slices();
+    // ch_2::arrays_and_slices();
+
+    // ch_3::structures();
+    // ch_3::enums();
+    ch_3::enum_linked_list();
+
 
     // tests::tests::inquire();
 
