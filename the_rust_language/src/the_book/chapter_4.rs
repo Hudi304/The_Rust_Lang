@@ -1,6 +1,6 @@
-#[allow(dead_code)]
+#[allow(dead_code, unused)]
 pub fn chapter_4_what_is_ownership() {
-    //? HEAP the heap is less organised
+    //? HEAP the heap is less organized
     //? - you request a certain amount of space from the heap
     //? - The memory allocator finds an empty spot in the heap that is big enough,
     //? - marks it as being in use, and returns a pointer, which is the address of that location
@@ -10,7 +10,7 @@ pub fn chapter_4_what_is_ownership() {
     //* Each value in RUST has an owner */
     //* There can only be one owner at a time */
     //* When the Owner goes out of scope, the value will be dropped */
-    //? C++ Resource Acquisition Is Initialization (RAII)
+    //? C++ Resource Acquisition Is Initialization (R.A.I.I.)
 
     let x = 5;
     let y = x;
@@ -133,20 +133,21 @@ pub fn chapter_4_what_is_ownership() {
             a_string // a_string is returned and moves out to the calling function
         }
 
-        let s1 = gives_ownership(); // gives_ownership moves its return
-                                    // value into s1
+        // let s1 = gives_ownership(); // gives_ownership moves its return
+        // value into s1
 
-        let s2 = String::from("hello"); // s2 comes into scope
+        // let s2 = String::from("hello"); // s2 comes into scope
 
-        let s3 = takes_and_gives_back(s2); // s2 is moved into
-                                           // takes_and_gives_back, which also
-                                           // moves its return value into s3
+        // let s3 = takes_and_gives_back(s2); // s2 is moved into
+        // takes_and_gives_back, which also
+        // moves its return value into s3
     } // Here, s3 goes out of scope and is dropped. s2 was moved, so nothing
       // happens. s1 goes out of scope and is dropped.
 
     fn_ownership();
 }
 
+#[allow(dead_code, unused)]
 pub fn chapter_4_references_and_borrowing() {
     //? the difference between a pointer and a reference is that
     //? a reference is guaranteed to point to a valid value of a
@@ -182,6 +183,7 @@ pub fn chapter_4_references_and_borrowing() {
     //? the ability of the compiler to tell that a reference is no longer being used at a
     //? point before the end of the scope is called Non-Lexical Lifetimes (NLL)
 }
+#[allow(dead_code, unused)]
 
 pub fn chapter_4_dangling_reference() {
     //? dangling reference = a pointer that references a location in
@@ -206,6 +208,7 @@ pub fn chapter_4_dangling_reference() {
     //* */ references must always be valid
 }
 
+#[allow(dead_code, unused)]
 pub fn chapter_4_slice() {
     // ? lets you reference a contiguous sequence of elements
     // ? is a reference, so it does NOT have ownership
