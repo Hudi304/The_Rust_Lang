@@ -76,7 +76,9 @@ fn main() {
         // ch_8_5::guards();
         // ch_8_5::bindings();
 
-        ch_8_6::if_let();
+        // ch_8_6::if_let();
+
+        ch_8_7::while_let();
     }
 
     // tests::tests::inquire();
