@@ -56,7 +56,22 @@ fn main() {
 
         // ch_6::from_into();
         // ch_6::try_from_try_into();
-        ch_6::string_parsing();
+        // ch_6::string_parsing();
+
+        // ch_7::expressions();
+
+        // ch_8::flow_control();
+        // ch_8::loop_keyword();
+        // ch_8::nesting_and_labels();
+        // ch_8::returning_from_loops();
+        // ch_8::while_keyword();
+        // ch_8::for_and_range();
+        // ch_8::match_keyword();
+        // ch_8::destructuring_tuples();
+        // ch_8::destructuring_array_slices();
+        // ch_8::destructuring_enums();
+        // ch_8::destructuring_pointers_and_references();
+        ch_8::destructuring_structs();
     }
 
     // tests::tests::inquire();

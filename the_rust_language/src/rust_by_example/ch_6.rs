@@ -62,6 +62,8 @@ pub fn try_from_try_into() {
     assert_eq!(result, Err(()));
 }
 
+use std::fmt;
+
 pub fn string_parsing() {
     println!("Turbo fish");
     let parsed: i32 = "5".parse().unwrap();
@@ -69,4 +71,17 @@ pub fn string_parsing() {
 
     let sum = parsed + turbo_parsed;
     println!("Sum: {:?}", sum);
+
+    struct Circle {
+        radius: i32,
+    }
+
+    impl fmt::Display for Circle {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "Circle of radius {}", self.radius)
+        }
+    }
+    let circle = Circle { radius: 6 };
+
+    print!("{}", circle.to_string())
 }
