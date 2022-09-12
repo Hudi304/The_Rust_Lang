@@ -7,3 +7,5 @@ pub mod ch_6;
 pub mod ch_7;
 pub mod ch_8_1;
 pub mod ch_8_5;
+pub mod ch_8_6;
+

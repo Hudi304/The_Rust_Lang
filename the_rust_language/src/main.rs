@@ -74,7 +74,9 @@ fn main() {
         // ch_8::destructuring_structs();
 
         // ch_8_5::guards();
-        ch_8_5::bindings();
+        // ch_8_5::bindings();
+
+        ch_8_6::if_let();
     }
 
     // tests::tests::inquire();
