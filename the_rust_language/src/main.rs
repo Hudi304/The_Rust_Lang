@@ -71,7 +71,10 @@ fn main() {
         // ch_8::destructuring_array_slices();
         // ch_8::destructuring_enums();
         // ch_8::destructuring_pointers_and_references();
-        ch_8::destructuring_structs();
+        // ch_8::destructuring_structs();
+
+        // ch_8_5::guards();
+        ch_8_5::bindings();
     }
 
     // tests::tests::inquire();
