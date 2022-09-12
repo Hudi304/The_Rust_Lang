@@ -75,10 +75,16 @@ fn main() {
 
         // ch_8_5::guards();
         // ch_8_5::bindings();
-
         // ch_8_6::if_let();
+        // ch_8_7::while_let();
 
-        ch_8_7::while_let();
+        // ch_9::functions()
+        // ch_9::associated_fn_and_methods();
+        // ch_9::closures();
+        // ch_9::capturing();
+        // ch_9::input_parameters();
+        // ch_9::type_anonymity();
+        ch_9::input_functions();
     }
 
     // tests::tests::inquire();
