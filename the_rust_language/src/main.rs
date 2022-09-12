@@ -84,7 +84,8 @@ fn main() {
         // ch_9::capturing();
         // ch_9::input_parameters();
         // ch_9::type_anonymity();
-        ch_9::input_functions();
+        // ch_9::input_functions();
+        ch_9::output_parameters();
     }
 
     // tests::tests::inquire();
