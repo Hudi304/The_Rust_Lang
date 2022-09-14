@@ -113,8 +113,8 @@ pub fn arrays_and_slices() {
     analyze_slice(&ys[1..4]);
 
     let empty_array: [u32; 0] = [];
-    assert_eq!(&empty_array, &[]);
-    assert_eq!(&empty_array, &[][..]); // same but more verbose
+    // assert_eq!(&empty_array, &[]);
+    // assert_eq!(&empty_array, &[][..]); // same but more verbose
 
     for i in 0..xs.len() + 1 {
         // OOPS, one element too far

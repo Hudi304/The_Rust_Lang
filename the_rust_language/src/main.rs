@@ -7,12 +7,15 @@
 //? MODULES
 
 mod rust_by_example;
+mod swagger_generator;
 mod tests;
 mod the_book;
 
 //? ALIASES
 #[allow(dead_code, unused, unused_labels)]
 use rust_by_example::*;
+use swagger_generator::*;
+
 // use the_book::chapter_2::chapter_2_guessing_game;
 // use the_book::chapter_3::chapter_3_common_programming_concepts;
 // use the_book::chapter_4::{
@@ -85,8 +88,13 @@ fn main() {
         // ch_9::input_parameters();
         // ch_9::type_anonymity();
         // ch_9::input_functions();
-        ch_9::output_parameters();
+        // ch_9::output_parameters();
     }
+
+    // swagger_generator::swagger_gen();
+
+    // swagger_gen::song_example();
+    swagger_gen::get_data();
 
     // tests::tests::inquire();
 
