@@ -46,7 +46,11 @@ fn main() {
 
         // chapter_5::methods();
 
-        chapter_6::enums_and_pattern_matching();
+        // chapter_6::enums_and_pattern_matching();
+        // chapter_6::option_enum();
+
+        // chapter_6::match_control_flow();
+        chapter_6::if_let();
     }
 
     //? Rust by example
