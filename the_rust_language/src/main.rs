@@ -16,24 +16,38 @@ mod the_book;
 use rust_by_example::*;
 use swagger_generator::*;
 
+use crate::the_book::{chapter_5, chapter_6};
+
 // use the_book::chapter_2::chapter_2_guessing_game;
 // use the_book::chapter_3::chapter_3_common_programming_concepts;
 // use the_book::chapter_4::{
 //     chapter_4_dangling_reference, chapter_4_slice, chapter_4_what_is_ownership,
 // };
 
-/// !rust analyzer crashes on startup sometimes
+// !rust analyzer crashes on startup sometimes
+//todo formatted print
+//todo println!("rct = {:#?}", rect1);
 
 fn main() {
     println!("-------------------------");
     println!("Result : ");
 
-    //? The Rust Programming Language
-    // chapter_2_guessing_game();
-    // chapter_3_common_programming_concepts();
-    // chapter_4_what_is_ownership();
-    // chapter_4_dangling_reference();
-    // chapter_4_slice();
+    {
+        //? The Rust Programming Language
+        // chapter_2_guessing_game();
+        // chapter_3_common_programming_concepts();
+        // chapter_4_what_is_ownership();
+        // chapter_4_dangling_reference();
+        // chapter_4_slice();
+
+        // chapter_5::structs();
+
+        // chapter_5::program_with_structs();
+
+        // chapter_5::methods();
+
+        chapter_6::enums_and_pattern_matching();
+    }
 
     //? Rust by example
     {
@@ -81,20 +95,22 @@ fn main() {
         // ch_8_6::if_let();
         // ch_8_7::while_let();
 
-        // ch_9::functions()
-        // ch_9::associated_fn_and_methods();
-        // ch_9::closures();
-        // ch_9::capturing();
-        // ch_9::input_parameters();
-        // ch_9::type_anonymity();
-        // ch_9::input_functions();
-        // ch_9::output_parameters();
+        {
+            // ch_9::functions()
+            // ch_9::associated_fn_and_methods();
+            // ch_9::closures();
+            // ch_9::capturing();
+            // ch_9::input_parameters();
+            // ch_9::type_anonymity();
+            // ch_9::input_functions();
+            // ch_9::output_parameters();
+        }
     }
 
     // swagger_generator::swagger_gen();
 
     // swagger_gen::song_example();
-    swagger_gen::get_data();
+    // swagger_gen::get_data();
 
     // tests::tests::inquire();
 
