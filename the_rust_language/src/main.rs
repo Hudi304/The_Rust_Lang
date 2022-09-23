@@ -16,7 +16,7 @@ mod the_book;
 use rust_by_example::*;
 use swagger_generator::*;
 
-use crate::the_book::{chapter_5, chapter_6};
+use crate::the_book::{chapter_5, chapter_6, chapter_8};
 
 // use the_book::chapter_2::chapter_2_guessing_game;
 // use the_book::chapter_3::chapter_3_common_programming_concepts;
@@ -50,7 +50,11 @@ fn main() {
         // chapter_6::option_enum();
 
         // chapter_6::match_control_flow();
-        chapter_6::if_let();
+        // chapter_6::if_let();
+
+        // chapter_8::common_collections();
+        // chapter_8::strings();
+        chapter_8::hash_maps();
     }
 
     //? Rust by example
