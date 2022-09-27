@@ -16,7 +16,7 @@ mod the_book;
 use rust_by_example::*;
 use swagger_generator::*;
 
-use crate::the_book::{chapter_5, chapter_6, chapter_8, chapter_9};
+use crate::the_book::{chapter_10, chapter_5, chapter_6, chapter_8, chapter_9};
 
 // use the_book::chapter_2::chapter_2_guessing_game;
 // use the_book::chapter_3::chapter_3_common_programming_concepts;
@@ -52,14 +52,31 @@ fn main() {
         // chapter_6::match_control_flow();
         // chapter_6::if_let();
 
+        //TODO read chapter_7
+
         // chapter_8::common_collections();
         // chapter_8::strings();
         // chapter_8::hash_maps();
 
         // chapter_9::panic_handling();
-        // chapter_9::recover_from_errors()
-        // chapter_9::question_mark_operator()
-        chapter_9::to_panic_or_not_to_panic()
+        // chapter_9::recover_from_errors();
+        // chapter_9::question_mark_operator();
+        // chapter_9::to_panic_or_not_to_panic();
+
+        // chapter_10::reducing_code_duplication();
+        // chapter_10::generics();
+        // chapter_10::traits_defining_shared_behavior();
+        // chapter_10::traits_as_parameters();
+        // chapter_10::where_clause();
+        // chapter_10::returning_types_that_implement_traits();
+        // chapter_10::conditional_method_implementation();
+
+        chapter_10::conditional_method_implementation();
+        chapter_10::lifetimes
+        
+        
+        
+        ();
     }
 
     //? Rust by example
