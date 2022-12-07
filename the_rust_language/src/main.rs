@@ -1,15 +1,14 @@
 //? CRATES
-
 // use std::cmp::Ordering;
 // use std::io;
 // use rand::Rng;
-
 //? MODULES
 
 mod rust_by_example;
 mod swagger_generator;
 mod tests;
 mod the_book;
+
 
 //? ALIASES
 #[allow(dead_code, unused, unused_labels)]
@@ -73,9 +72,7 @@ fn main() {
 
         // chapter_10::conditional_method_implementation();
         // chapter_10::lifetimes
-        
-        
-        
+
         ();
     }
 
@@ -136,7 +133,6 @@ fn main() {
             // ch_9::output_parameters();
         }
     }
-
 
     // swagger_gen::song_example();
     swagger_gen::get_data();
