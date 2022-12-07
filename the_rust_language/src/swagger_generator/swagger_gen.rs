@@ -1,5 +1,6 @@
 use crate::enum_generator::enum_generator::{filter_enums, write_file};
 use crate::models::swagger_format::SwaggerFormat;
+use crate::swagger_generator::model_generator::model_generator::filter_models;
 use colored::*;
 use reqwest::blocking::get;
 use serde_json::Value;
@@ -53,5 +54,7 @@ pub fn get_data() {
 
     clean_directory(ENUMS_PATH);
     println!("{}", "Writing enums...".cyan());
-    // write_enum_files(enums_file_configs);
+    write_enum_files(enums_file_configs);
+
+    filter_models(components)
 }
