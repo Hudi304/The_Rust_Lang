@@ -7,5 +7,6 @@ use serde_json::Value;
 pub struct SwaggerFormat {
     pub openapi: String,
     pub info: ResponseInfo,
-    pub paths: Value, // components: String,
+    pub paths: Value,      // components: String,
+    pub components: Value, // components: String,
 }

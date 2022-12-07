@@ -72,7 +72,7 @@ pub fn nesting_and_labels() {
             break 'outer;
         }
 
-        println!("This point will never be reached");
+        // println!("This point will never be reached");
     }
 
     println!("Exited the outer loop");

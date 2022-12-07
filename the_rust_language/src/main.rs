@@ -71,8 +71,8 @@ fn main() {
         // chapter_10::returning_types_that_implement_traits();
         // chapter_10::conditional_method_implementation();
 
-        chapter_10::conditional_method_implementation();
-        chapter_10::lifetimes
+        // chapter_10::conditional_method_implementation();
+        // chapter_10::lifetimes
         
         
         
@@ -137,10 +137,9 @@ fn main() {
         }
     }
 
-    // swagger_generator::swagger_gen();
 
     // swagger_gen::song_example();
-    // swagger_gen::get_data();
+    swagger_gen::get_data();
 
     // tests::tests::inquire();
 

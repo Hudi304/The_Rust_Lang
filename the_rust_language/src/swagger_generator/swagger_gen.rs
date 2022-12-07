@@ -1,44 +1,75 @@
 use crate::swagger_generator::models::swagger_format::SwaggerFormat;
 use reqwest::blocking::get;
-use serde::{Deserialize, Serialize};
+use serde_json::{Map, Value};
+use std::fs::{self, DirEntry, File};
+use std::io::prelude::*;
 
 const Swagger_URL: &str =
     "https://natcom-api-development.azurewebsites.net/swagger/v1/swagger.json";
 
-pub fn song_example() {
-    pub type Response = Vec<Song>;
+const ENUMS_PATH: &str = "src/swagger_generator/enums/";
 
-    #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-    #[serde(rename_all = "camelCase")]
-    pub struct Song {
-        pub id: i64,
-        #[serde(rename = "type")]
-        pub type_field: String,
-        pub title: String,
-        pub artist: Artist,
-        pub chords_present: bool,
-        pub tab_types: Vec<String>,
+const ENUMS_DEFAULT_DECLARATION: &str = "export enum";
+
+//TODO create directories if they don't exist
+pub fn write_file(path: &str, (key, value): (&String, &Value)) {
+    let file_path = path.to_owned() + key + ".enum.ts";
+    let mut file = File::create(file_path).unwrap();
+    let file_content = get_file_content((key, value));
+    file.write_all(file_content.as_bytes()).unwrap();
+}
+
+//TODO make this return a result
+pub fn get_file_content((enum_name, value): (&String, &Value)) -> String {
+    if !value.is_array() {
+        return String::from("");
     }
 
-    #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-    #[serde(rename_all = "camelCase")]
-    pub struct Artist {
-        pub id: i64,
-        #[serde(rename = "type")]
-        pub type_field: String,
-        pub name_without_the_prefix: String,
-        pub use_the_prefix: bool,
-        pub name: String,
+    let enum_declaration = String::from(ENUMS_DEFAULT_DECLARATION);
+    let enum_body = get_enum_content((enum_name, value));
+    let result = format!("{enum_declaration} {enum_name} {{ \n {enum_body} }}");
+    return result;
+}
+
+pub fn get_enum_content((_, value): (&String, &Value)) -> String {
+    let mut content = Vec::new();
+    let values_array = value.as_array().unwrap();
+    for enum_value in values_array.into_iter() {
+        let enum_value_string = enum_value.to_string().replace("\"", "");
+        writeln!(content, "{enum_value_string} = \"{enum_value_string}\",")
+            .map_err(|err| println!("{:?}", err))
+            .ok();
+    }
+    let buffer = String::from_utf8(content).unwrap();
+    return buffer;
+}
+
+pub fn write_enum_files(enums_array: Vec<(&String, &Value)>) {
+    for (key, value) in enums_array.into_iter() {
+        // println!("\n {} : {} ", key, value);
+        write_file(ENUMS_PATH, (key, value));
+    }
+}
+
+pub fn filter_enums(components: &Map<String, Value>) -> Vec<(&String, &Value)> {
+    let schemas = components.get("schemas").unwrap();
+    let schemas = schemas.as_object().unwrap();
+    let schemas_keys = schemas.keys();
+
+    let mut enums_array: Vec<(&String, &Value)> = Vec::new();
+
+    for model_name in schemas_keys {
+        let schema = schemas.get_key_value(model_name).unwrap();
+        let (_, value) = schema;
+        let schema_value = value.as_object().unwrap();
+
+        if schema_value.contains_key("enum") {
+            let (_, values_array) = schema_value.get_key_value("enum").unwrap();
+            enums_array.push((model_name, values_array));
+        }
     }
 
-    let res = get("https://www.songsterr.com/a/ra/songs.json?pattern=Beatles").unwrap();
-    let songs = res.json::<Response>().unwrap();
-    for song in songs {
-        println!(
-            "Song: {} Artist: {} Tab types: {:?}",
-            song.title, song.artist.name, song.tab_types
-        );
-    }
+    return enums_array;
 }
 
 pub fn get_data() {
@@ -52,20 +83,20 @@ pub fn get_data() {
         Result::Err(err) => panic!("Failed to parse JSON : {}", err),
     };
 
-    let paths_array = match json_response.paths.as_array() {
-        Option::Some(pathsArray) => Some(pathsArray),
+    let swagger_paths = match json_response.paths.as_object() {
+        Some(paths_array) => Some(paths_array),
         None => None,
     };
-    let paths_obj = json_response.paths.as_object();
 
-    println!("paths_array = {:?}", json_response.paths);
+    let components = match json_response.components.as_object() {
+        Some(paths_array) => Some(paths_array),
+        None => None,
+    };
 
-    println!("paths_obj = {:?}", paths_obj);
+    let swagger_paths = swagger_paths.unwrap();
+    let components = components.unwrap();
 
-    // print!(
-    //     "Song: {:?} ",
-    //     serde_json::to_string_pretty(&json_response)
-    //         .unwrap()
-    //         .replace("\n", "\n\r")
-    // );
+    let enums_file_configs = filter_enums(components);
+    // println!("Writing enums...".cyan());
+    write_enum_files(enums_file_configs);
 }
