@@ -40,6 +40,7 @@ pub mod enum_generator {
         let file_content = get_file_content((key, value));
         file.write_all(file_content.as_bytes()).unwrap();
 
+        
         println!(
             "  {} {}",
             "Created File".cyan(),

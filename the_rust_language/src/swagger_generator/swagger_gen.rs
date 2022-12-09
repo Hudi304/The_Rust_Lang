@@ -1,17 +1,21 @@
 use crate::enum_generator::enum_generator::{filter_enums, write_file};
-use crate::models::swagger_format::SwaggerFormat;
-use crate::swagger_generator::model_generator::model_generator::filter_models;
+use crate::generator_models::swagger_format::SwaggerFormat;
+use crate::swagger_generator::model_generator::model_generator::{
+    filter_models, write_model_files, MODELS_PATH,
+};
 use colored::*;
 use reqwest::blocking::get;
 use serde_json::Value;
 use std::fs::{self};
 
-const SWAGGER_URL: &str =
-    "https://natcom-api-development.azurewebsites.net/swagger/v1/swagger.json";
+// const SWAGGER_URL: &str =
+//     "https://natcom-api-development.azurewebsites.net/swagger/v1/swagger.json";
+
+const SWAGGER_URL: &str = "http://localhost:41000/swagger/v1/swagger.json";
 
 const ENUMS_PATH: &str = "src/swagger_generator/enums/";
 
-pub fn write_enum_files(enums_array: Vec<(&String, &Value)>) {
+pub fn write_enum_files(enums_array: &Vec<(&String, &Value)>) {
     for (key, value) in enums_array.into_iter() {
         write_file(ENUMS_PATH, (key, value));
     }
@@ -54,7 +58,12 @@ pub fn get_data() {
 
     clean_directory(ENUMS_PATH);
     println!("{}", "Writing enums...".cyan());
-    write_enum_files(enums_file_configs);
+    // write_enum_files(&enums_file_configs);
 
-    filter_models(components)
+    let model_file_configs = filter_models(components);
+
+    clean_directory(MODELS_PATH);
+
+    println!("{}", "Writing models...".cyan());
+    // write_model_files(model_file_configs);
 }
