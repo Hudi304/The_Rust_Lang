@@ -9,13 +9,12 @@ mod swagger_generator;
 mod tests;
 mod the_book;
 
-
 //? ALIASES
 #[allow(dead_code, unused, unused_labels)]
 use rust_by_example::*;
 use swagger_generator::*;
 
-use crate::the_book::{chapter_10, chapter_5, chapter_6, chapter_8, chapter_9};
+// use crate::the_book::{chapter_10, chapter_5, chapter_6, chapter_8, chapter_9};
 
 // use the_book::chapter_2::chapter_2_guessing_game;
 // use the_book::chapter_3::chapter_3_common_programming_concepts;

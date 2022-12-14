@@ -267,17 +267,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpBlockFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpBlockFilterTableFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpBlockFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpBlockFilterTableFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpBlockFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpBlockFilterTableFilter"
+                  }
+                ]
               }
             }
           }
@@ -417,17 +429,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpTransactionReceiptFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionReceiptFilterTableFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpTransactionReceiptFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionReceiptFilterTableFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpTransactionReceiptFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionReceiptFilterTableFilter"
+                  }
+                ]
               }
             }
           }
@@ -576,6 +600,232 @@
         }
       }
     },
+    "/api/exp/transaction/{transactionHash}/ops": {
+      "post": {
+        "tags": [
+          "Explorer"
+        ],
+        "summary": "Returns a paginated list of all state operations of this transaction",
+        "operationId": "GetTransactionOperationsByHash",
+        "parameters": [
+          {
+            "name": "transactionHash",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "bfd124e0754414b5782099e06e6aa71efae7d08e09b7fd0fa2c820e0fb9f4040"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionOperationHistoryFilterTableFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionOperationHistoryFilterTableFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionOperationHistoryFilterTableFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpStateOperationDTOTableResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpStateOperationDTOTableResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpStateOperationDTOTableResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/exp/transaction/{transactionHash}/affected-acc": {
+      "post": {
+        "tags": [
+          "Explorer"
+        ],
+        "summary": "Returns a paginated list of all the accounts that were affected by this transaction",
+        "operationId": "GetTransactionAffectedAccountsByHash",
+        "parameters": [
+          {
+            "name": "transactionHash",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "bfd124e0754414b5782099e06e6aa71efae7d08e09b7fd0fa2c820e0fb9f4040"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionOperationHistoryFilterTableFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionOperationHistoryFilterTableFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionOperationHistoryFilterTableFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpAccountDTOTableResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpAccountDTOTableResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpAccountDTOTableResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/exp/accounts": {
       "post": {
         "tags": [
@@ -586,17 +836,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAccountFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAccountFilterTableFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAccountFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAccountFilterTableFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAccountFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAccountFilterTableFilter"
+                  }
+                ]
               }
             }
           }
@@ -769,17 +1031,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAssetFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAssetFilterTableFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAssetFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAssetFilterTableFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAssetFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAssetFilterTableFilter"
+                  }
+                ]
               }
             }
           }
@@ -870,17 +1144,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAccountHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAccountHistoryFilterTableFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAccountHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAccountHistoryFilterTableFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpAccountHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpAccountHistoryFilterTableFilter"
+                  }
+                ]
               }
             }
           }
@@ -971,17 +1257,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpTransactionHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionHistoryFilterTableFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpTransactionHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionHistoryFilterTableFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpTransactionHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpTransactionHistoryFilterTableFilter"
+                  }
+                ]
               }
             }
           }
@@ -1072,17 +1370,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpOperationHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpOperationHistoryFilterTableFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpOperationHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpOperationHistoryFilterTableFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpOperationHistoryFilterTableFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExpOperationHistoryFilterTableFilter"
+                  }
+                ]
               }
             }
           }
@@ -1248,17 +1558,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PendingTransactionViewModel"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PendingTransactionViewModel"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PendingTransactionViewModel"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PendingTransactionViewModel"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PendingTransactionViewModel"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PendingTransactionViewModel"
+                  }
+                ]
               }
             }
           }
@@ -1433,17 +1755,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SignatureViewModel"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SignatureViewModel"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/SignatureViewModel"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SignatureViewModel"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/SignatureViewModel"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SignatureViewModel"
+                  }
+                ]
               }
             }
           }
@@ -1490,23 +1824,54 @@
             "format": "int64"
           },
           "address": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "nullable": true
           },
           "timestamp": {
             "type": "integer",
             "format": "int64"
           },
           "type": {
-            "$ref": "#/components/schemas/AccountType"
+            "enum": [
+              "None",
+              "AssetHolder",
+              "Node",
+              "ExternalProgram",
+              "EmbeddedProgram"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountType"
+              }
+            ]
           },
           "codeHash": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "createdInTransaction": {
-            "$ref": "#/components/schemas/TransactionReceiptDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TransactionReceiptDataModel"
+              }
+            ],
+            "nullable": true
           },
           "program": {
-            "$ref": "#/components/schemas/AccountProgramDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountProgramDataModel"
+              }
+            ],
+            "nullable": true
           },
           "accountStates": {
             "type": "array",
@@ -1554,7 +1919,12 @@
             "nullable": true
           },
           "account": {
-            "$ref": "#/components/schemas/AccountDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountDataModel"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1579,13 +1949,28 @@
             "format": "int64"
           },
           "stateHash": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "assetsHash": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "dataHash": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "data": {
             "type": "string",
@@ -1596,10 +1981,20 @@
             "type": "boolean"
           },
           "account": {
-            "$ref": "#/components/schemas/AccountDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountDataModel"
+              }
+            ],
+            "nullable": true
           },
           "createdInTransaction": {
-            "$ref": "#/components/schemas/TransactionReceiptDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TransactionReceiptDataModel"
+              }
+            ],
+            "nullable": true
           },
           "assets": {
             "type": "array",
@@ -1645,10 +2040,25 @@
             "format": "int64"
           },
           "ownerAddress": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "nullable": true
           },
           "type": {
-            "$ref": "#/components/schemas/AssetType"
+            "enum": [
+              "None",
+              "Coin",
+              "Nft",
+              "Token"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetType"
+              }
+            ]
           },
           "key": {
             "type": "string",
@@ -1664,7 +2074,12 @@
             "nullable": true
           },
           "accountState": {
-            "$ref": "#/components/schemas/AccountStateDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountStateDataModel"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1690,13 +2105,28 @@
             "format": "int64"
           },
           "parentHash": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "blockHash": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "stateRoot": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "isProcessed": {
             "type": "boolean"
@@ -1783,7 +2213,12 @@
             "type": "boolean"
           },
           "transactionReceipt": {
-            "$ref": "#/components/schemas/TransactionReceiptDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TransactionReceiptDataModel"
+              }
+            ],
+            "nullable": true
           },
           "feeDefinitions": {
             "type": "array",
@@ -1811,7 +2246,18 @@
             "format": "int64"
           },
           "type": {
-            "$ref": "#/components/schemas/AccountType"
+            "enum": [
+              "None",
+              "AssetHolder",
+              "Node",
+              "ExternalProgram",
+              "EmbeddedProgram"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountType"
+              }
+            ]
           },
           "codeHash": {
             "type": "string",
@@ -1822,7 +2268,22 @@
             "nullable": true
           },
           "currentAccountState": {
-            "$ref": "#/components/schemas/ExpAccountStateDTO"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpAccountStateDTO"
+              }
+            ],
+            "nullable": true
+          },
+          "numberOfOwnedNFTs": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "numberOfOwnedCoins": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1862,7 +2323,12 @@
             "nullable": true
           },
           "type": {
-            "$ref": "#/components/schemas/AccountType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountType"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1871,10 +2337,20 @@
         "type": "object",
         "properties": {
           "page": {
-            "$ref": "#/components/schemas/Page"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ],
+            "nullable": true
           },
           "options": {
-            "$ref": "#/components/schemas/ExpAccountFilter"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpAccountFilter"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1887,10 +2363,20 @@
         "type": "object",
         "properties": {
           "page": {
-            "$ref": "#/components/schemas/Page"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ],
+            "nullable": true
           },
           "options": {
-            "$ref": "#/components/schemas/ExpAccountHistoryFilter"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpAccountHistoryFilter"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1954,7 +2440,17 @@
         "type": "object",
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/AssetType"
+            "enum": [
+              "None",
+              "Coin",
+              "Nft",
+              "Token"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetType"
+              }
+            ]
           },
           "key": {
             "type": "string",
@@ -1992,7 +2488,12 @@
         "type": "object",
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/AssetType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetType"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2001,10 +2502,20 @@
         "type": "object",
         "properties": {
           "page": {
-            "$ref": "#/components/schemas/Page"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ],
+            "nullable": true
           },
           "options": {
-            "$ref": "#/components/schemas/ExpAssetFilter"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpAssetFilter"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2083,10 +2594,20 @@
         "type": "object",
         "properties": {
           "page": {
-            "$ref": "#/components/schemas/Page"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ],
+            "nullable": true
           },
           "options": {
-            "$ref": "#/components/schemas/ExpBlockFilter"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpBlockFilter"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2144,10 +2665,20 @@
         "type": "object",
         "properties": {
           "page": {
-            "$ref": "#/components/schemas/Page"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ],
+            "nullable": true
           },
           "options": {
-            "$ref": "#/components/schemas/ExpOperationHistoryFilter"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpOperationHistoryFilter"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2160,7 +2691,23 @@
             "format": "int32"
           },
           "type": {
-            "$ref": "#/components/schemas/OperationType"
+            "enum": [
+              "CreateAccount",
+              "UpdateAccount",
+              "CloseAccount",
+              "CreateAsset",
+              "UpdateAsset",
+              "SendAsset",
+              "ReceiveAsset",
+              "InvokeProgram",
+              "UpdateChainConfig",
+              "Log"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OperationType"
+              }
+            ]
           },
           "contextAccount": {
             "type": "string",
@@ -2209,10 +2756,46 @@
         "type": "object",
         "properties": {
           "page": {
-            "$ref": "#/components/schemas/Page"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ],
+            "nullable": true
           },
           "options": {
-            "$ref": "#/components/schemas/ExpTransactionHistoryFilter"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpTransactionHistoryFilter"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExpTransactionOperationHistoryFilter": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ExpTransactionOperationHistoryFilterTableFilter": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ],
+            "nullable": true
+          },
+          "options": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpTransactionOperationHistoryFilter"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2331,10 +2914,20 @@
         "type": "object",
         "properties": {
           "page": {
-            "$ref": "#/components/schemas/Page"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ],
+            "nullable": true
           },
           "options": {
-            "$ref": "#/components/schemas/ExpTransactionReceiptFilter"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExpTransactionReceiptFilter"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2351,7 +2944,12 @@
             "format": "int64"
           },
           "feeAccount": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "nullable": true
           },
           "coinKey": {
             "type": "string",
@@ -2378,10 +2976,31 @@
             "nullable": true
           },
           "type": {
-            "$ref": "#/components/schemas/OperationType"
+            "enum": [
+              "CreateAccount",
+              "UpdateAccount",
+              "CloseAccount",
+              "CreateAsset",
+              "UpdateAsset",
+              "SendAsset",
+              "ReceiveAsset",
+              "InvokeProgram",
+              "UpdateChainConfig",
+              "Log"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OperationType"
+              }
+            ]
           },
           "chainConfig": {
-            "$ref": "#/components/schemas/ChainConfigDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChainConfigDataModel"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2448,13 +3067,40 @@
             "nullable": true
           },
           "fromPublicAddress": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "description": "This is the public address of the user that created the transation.",
+            "nullable": true
           },
           "type": {
-            "$ref": "#/components/schemas/PendingTransactionType"
+            "enum": [
+              "None",
+              "Transfer"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PendingTransactionType"
+              }
+            ]
           },
           "status": {
-            "$ref": "#/components/schemas/PendingTransactionStatus"
+            "enum": [
+              "None",
+              "Registered",
+              "Notified",
+              "Canceled",
+              "Submitted",
+              "Committed",
+              "Failed"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PendingTransactionStatus"
+              }
+            ]
           },
           "statusDescription": {
             "type": "string",
@@ -2469,7 +3115,12 @@
             "nullable": true
           },
           "transactionHash": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "transactionNonce": {
             "type": "integer",
@@ -2480,10 +3131,25 @@
             "format": "int64"
           },
           "transactionToAddress": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "nullable": true
           },
           "transactionAssetType": {
-            "$ref": "#/components/schemas/AssetType"
+            "enum": [
+              "None",
+              "Coin",
+              "Nft",
+              "Token"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetType"
+              }
+            ]
           },
           "transactionAssetAmount": {
             "type": "integer",
@@ -2556,7 +3222,12 @@
             "readOnly": true
           },
           "rAsSpan": {
-            "$ref": "#/components/schemas/ByteSpan"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ByteSpan"
+              }
+            ],
+            "readOnly": true
           },
           "s": {
             "type": "string",
@@ -2565,7 +3236,12 @@
             "readOnly": true
           },
           "sAsSpan": {
-            "$ref": "#/components/schemas/ByteSpan"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ByteSpan"
+              }
+            ],
+            "readOnly": true
           },
           "bytesWithRecovery": {
             "type": "string",
@@ -2580,7 +3256,12 @@
         "type": "object",
         "properties": {
           "signature": {
-            "$ref": "#/components/schemas/Signature"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Signature"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2605,26 +3286,62 @@
             "format": "int32"
           },
           "type": {
-            "$ref": "#/components/schemas/OperationType"
+            "enum": [
+              "CreateAccount",
+              "UpdateAccount",
+              "CloseAccount",
+              "CreateAsset",
+              "UpdateAsset",
+              "SendAsset",
+              "ReceiveAsset",
+              "InvokeProgram",
+              "UpdateChainConfig",
+              "Log"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OperationType"
+              }
+            ]
           },
           "contextAccount": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "nullable": true
           },
           "targetAccount": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "nullable": true
           },
           "isSystemLevel": {
             "type": "boolean"
           },
           "data": {
-            "$ref": "#/components/schemas/OperationData"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OperationData"
+              }
+            ],
+            "nullable": true
           },
           "dataPayload": {
             "type": "string",
             "nullable": true
           },
           "transactionReceipt": {
-            "$ref": "#/components/schemas/TransactionReceiptDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TransactionReceiptDataModel"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2649,10 +3366,20 @@
             "format": "int32"
           },
           "fromAddress": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "nullable": true
           },
           "toAddress": {
-            "$ref": "#/components/schemas/Address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "nullable": true
           },
           "nonce": {
             "type": "integer",
@@ -2665,10 +3392,20 @@
             "type": "boolean"
           },
           "transactionHash": {
-            "$ref": "#/components/schemas/uint256"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/uint256"
+              }
+            ],
+            "nullable": true
           },
           "block": {
-            "$ref": "#/components/schemas/BlockDataModel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BlockDataModel"
+              }
+            ],
+            "nullable": true
           },
           "stateOperations": {
             "type": "array",
