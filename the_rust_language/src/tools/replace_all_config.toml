@@ -1,0 +1,6 @@
+[filters]
+    termination = "scss"
+[replace]
+    arr = [ 
+        { findThis = "something", replace = "somethingElse"}, 
+        { findThis = "everything", replace =  "everythingElse"}] 

@@ -21,7 +21,7 @@ pub fn get_model_file_content(
     let properties = match model_values.get("properties") {
         None => return None, //? return early
         Some(properties) => properties,
-    };
+    }; 
 
     let file_path = MODELS_PATH.to_owned() + &model_name + ".model.ts";
     let (attributes, constructor) = get_model_attributes(properties);

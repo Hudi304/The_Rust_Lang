@@ -23,8 +23,8 @@ pub fn write_enum_files(enums_array: &Vec<(&String, &Value)>) {
 
 pub fn write_model_files(models_array: &Vec<(&String, &Value)>) {
     println!("{}", "Writing models...".cyan());
-    for (model_name, model_values) in models_array.into_iter() {
-        match get_model_file_content((model_name, model_values), models_array) {
+    for file_data in models_array.into_iter() {
+        match get_model_file_content(*file_data, models_array) {
             None => continue,
             Some((file_path, file_content)) => write_file(&file_path, &file_content),
         }
