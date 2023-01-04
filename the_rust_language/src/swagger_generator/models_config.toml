@@ -1,0 +1,10 @@
+enum_imports =   "import {{ {0} }} from '@/common/enums/{0}.enum` \n"
+model_imports =   "import {{ {0} }} from '@/common/enums/{0}.model` \n"
+
+declaration = "export class {model_name} {{\n"
+
+generateConstructor = true 
+
+constructor_signiture =  "  constructor(obj = {} as any) {\n    obj = obj || {};\n"
+
+reference_paths = ["$ref", "allOf : "]

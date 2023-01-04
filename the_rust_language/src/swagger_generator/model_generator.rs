@@ -10,7 +10,6 @@ pub fn filter_models(components: &Map<String, Value>) -> Vec<(&String, &Value)> 
         .into_iter()
         .filter(|(_, values)| values.get("type").unwrap() == "object")
         .collect();
-
     return models;
 }
 
@@ -21,11 +20,11 @@ pub fn get_model_file_content(
     let properties = match model_values.get("properties") {
         None => return None, //? return early
         Some(properties) => properties,
-    }; 
+    };
 
     let file_path = MODELS_PATH.to_owned() + &model_name + ".model.ts";
     let (attributes, constructor) = get_model_attributes(properties);
-    let imports = get_constructor_and_imports(properties, &models_array);
+    let imports = get_imports(properties, &models_array);
     let declaration = format!("export class {model_name} {{\n");
     let file_content = imports + &declaration + &attributes + &constructor + "}";
 
@@ -137,7 +136,7 @@ pub fn get_initial_value(attribute_type: &String) -> String {
     .to_owned()
 }
 
-pub fn get_constructor_and_imports(properties: &Value, models: &Vec<(&String, &Value)>) -> String {
+pub fn get_imports(properties: &Value, models: &Vec<(&String, &Value)>) -> String {
     let properties = match properties.as_object() {
         None => return "".to_string(),
         Some(properties) => properties,
@@ -147,18 +146,14 @@ pub fn get_constructor_and_imports(properties: &Value, models: &Vec<(&String, &V
     let mut enum_imports_set = HashSet::new();
 
     for (_, props_value) in properties.into_iter() {
-        let reference = match props_value.get("$ref") {
-            None => continue,
-            Some(reference) => reference,
-        };
+        let reference_name = get_property_reference_name(props_value);
 
-        let reference = match reference.as_str() {
-            None => continue,
-            Some(reference) => reference,
+        if reference_name.is_none() {
+            continue;
         }
-        .to_string();
+        let reference_name = reference_name.unwrap();
 
-        let reference_model_name = match reference.split("/").last() {
+        let reference_model_name = match reference_name.split("/").last() {
             None => continue,
             Some(str) => str,
         }
@@ -166,13 +161,13 @@ pub fn get_constructor_and_imports(properties: &Value, models: &Vec<(&String, &V
 
         if is_model(&reference_model_name, models) {
             let model_import_statement = format!(
-                "import {{{0}}} from '@/common/model/{0}.model` \n",
+                "import {{ {0} }} from '@/common/model/{0}.model` \n",
                 reference_model_name
             );
             model_imports_set.insert(model_import_statement);
         } else {
             let enum_import_statement = format!(
-                "import {{{0}}} from '@/common/enums/{0}.enum` \n",
+                "import {{ {0} }} from '@/common/enums/{0}.enum` \n",
                 reference_model_name
             );
             enum_imports_set.insert(enum_import_statement);
@@ -180,7 +175,7 @@ pub fn get_constructor_and_imports(properties: &Value, models: &Vec<(&String, &V
     }
     let model_imports_str: String = model_imports_set.into_iter().collect();
     let enum_imports_str: String = enum_imports_set.into_iter().collect();
-    let imports = enum_imports_str + model_imports_str.as_str();
+    let imports = enum_imports_str + model_imports_str.as_str() + "\n";
 
     return imports;
 }
@@ -215,7 +210,7 @@ pub fn get_constructor(model_properties: &Map<String, Value>) -> String {
 
 pub fn get_attribute_type(attribute_properties: &Map<String, Value>) -> String {
     let attribute_type = attribute_properties.get("type");
-    let attribute_ref = attribute_properties.get("$ref");
+    let attribute_ref = get_all_of(attribute_properties);
     let attribute_items = attribute_properties.get("items");
     //TODO handle error messages better
     let attribute_type = match attribute_type {
@@ -239,4 +234,71 @@ pub fn get_attribute_type(attribute_properties: &Map<String, Value>) -> String {
     };
 
     return attribute_type;
+}
+
+//* takes in
+// "contextAccount": {
+// "allOf": [
+//     {
+//       "$ref": "#/components/schemas/Address"
+//     }
+//   ],
+//   "nullable": true
+// },
+//*returns  "#/components/schemas/Address"
+fn get_all_of(attribute_properties: &Map<String, Value>) -> Option<&Value> {
+    let attribute_ref = attribute_properties.get("allOf");
+    if attribute_ref.is_some() {
+        let attribute_ref = attribute_ref.unwrap();
+        let all_of_arr = attribute_ref.as_array().unwrap();
+        let arr_first = all_of_arr.first().unwrap();
+        let reference = arr_first.get("$ref").unwrap();
+        println!("attribute is some {}", reference.to_string());
+        return Some(reference);
+    }
+    return None;
+}
+// try $ref
+// try allOf :[{$ref}]
+// try items :[{$ref}]
+fn get_property_reference_name(attribute: &Value) -> Option<String> {
+    let refer = attribute.get("$ref");
+
+    if refer.is_some() {
+        let refer = refer.unwrap();
+        let refer_str = refer.as_str().unwrap().to_owned();
+        println!(" getPropertyReferenceName : {}", refer_str);
+        return Some(refer_str);
+    }
+
+    let refer_arr = attribute.get("allOf");
+
+    if refer_arr.is_some() {
+        let refer = refer_arr.unwrap();
+        let refer_arr = refer.as_array().unwrap();
+        let reference = refer_arr.first().unwrap();
+        let refer_str = reference.get("$ref");
+
+        if refer_str.is_some() {
+            let refer_str = refer_str.unwrap().as_str().unwrap().to_owned();
+            println!(" getPropertyReferenceName : {}", refer_str);
+            return Some(refer_str);
+        }
+    }
+    let refer_arr = attribute.get("items");
+
+    if refer_arr.is_some() {
+        let refer = refer_arr.unwrap();
+        let refer_str = refer.get("$ref");
+
+        if refer_str.is_some() {
+            let refer_str = refer_str.unwrap().as_str().unwrap().to_owned();
+            println!(" getPropertyReferenceName : {}", refer_str);
+            return Some(refer_str);
+        }
+    }
+
+    println!("None");
+
+    return None;
 }

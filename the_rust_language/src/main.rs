@@ -138,9 +138,9 @@ fn main() {
 
     // swagger_gen::song_example();
 
-    // swagger_gen::get_data();
+    swagger_gen::get_data();
 
-    replace_in_all_files("./src".to_owned());
+    // replace_in_all_files("./src".to_owned());
 
     // tests::tests::inquire();
 

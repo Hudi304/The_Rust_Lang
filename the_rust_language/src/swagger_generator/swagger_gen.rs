@@ -1,3 +1,5 @@
+use std::fs;
+
 use crate::swagger_generator::enum_generator::{filter_enums, get_file_content};
 use crate::swagger_generator::generator_utils::{delete_dir_contents, write_file};
 use crate::swagger_generator::model_generator::{get_model_file_content, MODELS_PATH};
@@ -7,6 +9,7 @@ use crate::{
 };
 use colored::*;
 use reqwest::blocking::get;
+use serde::Deserialize;
 use serde_json::Value;
 
 const SWAGGER_URL: &str = "http://localhost:41000/swagger/v1/swagger.json";
@@ -29,6 +32,32 @@ pub fn write_model_files(models_array: &Vec<(&String, &Value)>) {
             Some((file_path, file_content)) => write_file(&file_path, &file_content),
         }
     }
+}
+
+#[derive(Deserialize)]
+pub struct ReplaceAllSettings {
+    // filters: Filters,
+    // replace: Replace,
+}
+
+pub fn read_toml() -> ReplaceAllSettings {
+    let settings_path = "src/tools/replace_all_config.toml";
+
+    let mut config = match fs::read_to_string(settings_path) {
+        Err(why) => {
+            panic!("{}: {}", "couldn't open \n".red(), why);
+        }
+        Ok(file) => file,
+    };
+
+    let config: ReplaceAllSettings = match toml::from_str(&config) {
+        Ok(d) => d,
+        Err(_) => {
+            panic!("Unable to load data from ");
+        }
+    };
+
+    return config;
 }
 
 pub fn get_data() {

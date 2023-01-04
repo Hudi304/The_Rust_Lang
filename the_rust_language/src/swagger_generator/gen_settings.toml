@@ -1,0 +1,3 @@
+SWAGGER_URL = "http://localhost:41000/swagger/v1/swagger.json"
+ENUMS_PATH = "src/swagger_generator/enums/"
+MODELS_PATH = "src/swagger_generator/models/"
