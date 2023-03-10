@@ -40,16 +40,11 @@ fn main() {
         // chapter_4_what_is_ownership();
         // chapter_4_dangling_reference();
         // chapter_4_slice();
-
         // chapter_5::structs();
-
         // chapter_5::program_with_structs();
-
         // chapter_5::methods();
-
         // chapter_6::enums_and_pattern_matching();
         // chapter_6::option_enum();
-
         // chapter_6::match_control_flow();
         // chapter_6::if_let();
 
