@@ -46,6 +46,12 @@ pub fn tests() {
 
 
 
-
+    // civ mic 
+    // civ mare 
+    // contracte
+    // aisgurare 
+    // rovienita
+    // itp
+    // copie dupa buletinul lui
     
 }
