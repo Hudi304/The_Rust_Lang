@@ -12,3 +12,4 @@ pub fn inquire() {
 fn menu(items: &[String]) -> String {
     return Select::new("MENU", items.to_vec()).prompt().unwrap();
 }
+ 
