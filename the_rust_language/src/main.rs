@@ -29,6 +29,8 @@ use swagger_generator::*;
 //todo formatted print
 //todo println!("rct = {:#?}", rect1);
 
+
+//TODO split into separate files
 fn main() {
     println!("-------------------------");
     println!("Result : ");
