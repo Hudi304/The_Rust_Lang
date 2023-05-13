@@ -15,7 +15,7 @@ mod tools;
 use rust_by_example::*;
 use swagger_generator::*;
 
-use crate::tools::tools::replace_in_all_files;
+// use crate::tools::tools::replace_in_all_files;
 
 // use crate::the_book::{chapter_10, chapter_5, chapter_6, chapter_8, chapter_9};
 
@@ -132,12 +132,10 @@ fn main() {
     }
 
     // swagger_gen::song_example();
-
-    swagger_gen::get_data();
-
+    // swagger_gen::get_data();
     // replace_in_all_files("./src".to_owned());
-
     // tests::tests::inquire();
-
     //? The Async book
+
+    println!("FINISHED SUCCESSFULLY ");
 }
