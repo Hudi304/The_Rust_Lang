@@ -68,6 +68,39 @@ pub fn tests() {
     // Testing private functions
     // Rust does not care :))))
 
+    ////////////////////////////////
+    // Integration tests
+
+    // these are entirely external to your library
+    // and use your code in the same way any other
+    // external code would
+
+    // integration tests sit in the test directory top level
+    // (./src)
+
+    // each file in the test directory is a separate crate
+    // no need for [cfg(test)]
+    // cargo treats the /src/test directory specially
+    // the files in the /test directory are compiled
+    // ony when cargo test is run
+
+    ////////////////////////////////
+    //? unit tests
+    //? integration tests
+    //? documentation tests
+
+    // the tests cascade
+    // if one section fails the others will not be run
+
+    ////////////////////////////////
+    // Running integration tests individually
+    //? cargo test --test integration_test
+
+    ////////////////////////////////
+    // Binary crates
+    // if the project does not have a src/lib.rs file 
+    // we can not create integration tests
+
 }
 
 pub fn add_two(a: i32) -> i32 {
@@ -80,6 +113,7 @@ fn internal_adder(a: i32, b: i32) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    // this brings all of the test module's parents into scope
 
     #[test]
     fn internal() {
