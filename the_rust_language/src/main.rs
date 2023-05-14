@@ -15,6 +15,8 @@ mod tools;
 use rust_by_example::*;
 use swagger_generator::*;
 
+use crate::the_book::chapter_11;
+
 // use crate::tools::tools::replace_in_all_files;
 
 // use crate::the_book::{chapter_10, chapter_5, chapter_6, chapter_8, chapter_9};
@@ -29,14 +31,13 @@ use swagger_generator::*;
 //todo formatted print
 //todo println!("rct = {:#?}", rect1);
 
-
 //TODO split into separate files
 fn main() {
     println!("-------------------------");
     println!("Result : ");
 
+    //? The Rust Programming Language
     {
-        //? The Rust Programming Language
         // chapter_2_guessing_game();
         // chapter_3_common_programming_concepts();
         // chapter_4_what_is_ownership();
@@ -72,6 +73,7 @@ fn main() {
         // chapter_10::conditional_method_implementation();
         // chapter_10::lifetimes
 
+        chapter_11::tests();
         ();
     }
 
