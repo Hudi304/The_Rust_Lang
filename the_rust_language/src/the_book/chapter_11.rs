@@ -21,9 +21,9 @@ pub fn tests() {
     // assert_eq! param order does not matter
 
     ////////////////////////////////
-    /// Controlling How The Tests are Run
-    /// cargo compiles them in test mode and runs the binary
-    
+    // Controlling How The Tests are Run
+    // cargo compiles them in test mode and runs the binary
+
     // the default behavior is to run all tests in parallel
     // you can override this behavior with command line options
 
@@ -48,13 +48,41 @@ pub fn tests() {
 
     ////////////////////////////////
     // Ignoring tests unless specifically requested
-    // to ignore use : 
+    // to ignore use :
     //?  #[ignore]
-    // to run the ignored tests use: 
+    // to run the ignored tests use:
     //? cargo run -- --ignored // just ignored
     //? cargo run -- --include-ignored // all
 
+    ////////////////////////////////
+    // Test organization
 
+    //? unit tests
+    //? integration tests -  Integration tests
+    // are entirely external to your library and
+    // use your code in the same way any other
+    // external code would, using only the public
+    // interface and potentially exercising multiple
+    // modules per test.
 
+    // Testing private functions
+    // Rust does not care :))))
 
+}
+
+pub fn add_two(a: i32) -> i32 {
+    internal_adder(a, 2)
+}
+
+fn internal_adder(a: i32, b: i32) -> i32 {
+    a + b
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn internal() {
+        assert_eq!(4, internal_adder(2, 2));
+    }
 }
