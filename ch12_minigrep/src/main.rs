@@ -1,6 +1,6 @@
+use minigrep::Config;
 use std::env;
 use std::process;
-use minigrep::Config;
 
 fn main() {
     // responsibility of main.rs :
@@ -20,5 +20,9 @@ fn main() {
         println!("Application error: {e}");
         process::exit(1);
     }
-}
 
+    // Write a test that fails and run it to make sure it fails for the reason you expect.
+    // Write or modify just enough code to make the new test pass.
+    // Refactor the code you just added or changed and make sure the tests continue to pass.
+    // Repeat from step 1!
+}
