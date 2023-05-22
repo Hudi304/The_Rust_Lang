@@ -48,7 +48,7 @@ fn hello(name: &str) {
     println!("Hello, {name}!");
 }
 
-pub fn main() {
+fn cons_list() {
     let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
     // let list = Cons(1, Cons(2, Cons(3, Nil)));
     let b = Box::new(5);
@@ -72,20 +72,49 @@ pub fn main() {
     // this is the same thing, if Rust didn't implement it deref coercion
     let m = MyBox::new(String::from("Rust"));
     hello(&(*m)[..]);
+}
 
+// The Drop trait can be used to make a little code run every time a variable 
+// needs to be deallocated from the heap
+// the compiler will call that code for you
+
+struct CustomSmartPointer {
+    data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+    }
+}
+
+pub fn main() {
+    cons_list();
     // (*m) -> the value of the box (String)
     // &(String)[..] -> &str
 
-    //! NO RUNTIME PENALTY, it is all resolved at compile time
+    // ! NO RUNTIME PENALTY, it is all resolved at compile time
 
-    // There is also the DerefMut trait that overrides the behavior 
-    // of the '*' operator on mutable references 
+    // There is also the DerefMut trait that overrides the behavior
+    // of the '*' operator on mutable references
 
-    // Rust does deref coercion for these 3 cases : 
+    // Rust does deref coercion for these 3 cases :
     // - &T to &U when T:Deref<Target=U>
     // - &mut T to &mut U when T:DerefMut<Target=U>
     // - &mut T to & U when T:Deref<Target=U>
 
+    let c = CustomSmartPointer {
+        data: String::from("my stuff"),
+    };
+    let d = CustomSmartPointer {
+        data: String::from("other stuff"),
+    };
+    println!("CustomSmartPointers created.");
 
-
+    let e = CustomSmartPointer {
+        data: String::from("some data"),
+    };
+    println!("CustomSmartPointer created.");
+    drop(e);
+    println!("CustomSmartPointer dropped before the end of main.");
 }
