@@ -10,6 +10,7 @@ mod tests;
 mod the_book;
 mod tools;
 
+
 //? ALIASES
 #[allow(dead_code, unused, unused_labels)]
 use rust_by_example::*;
@@ -142,6 +143,8 @@ fn main() {
     // replace_in_all_files("./src".to_owned());
     // tests::tests::inquire();
     //? The Async book
+
+    the_book::chapter_14::add_one(1);
 
     println!("FINISHED SUCCESSFULLY ");
 }
