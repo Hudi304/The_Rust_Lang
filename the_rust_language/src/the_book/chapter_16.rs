@@ -1,12 +1,12 @@
 // Concurrent -> different parts of the program execute independently
 // Parallel -> different parts of the program execute at the same time
 
-use std::thread;
-use std::time::Duration;
 
-use super::ch_16_x::ch_16_1::move_example;
 
-pub fn ch_16_1() {
+use super::ch_16_x::ch_16_1;
+use super::ch_16_x::ch_16_2;
+
+fn ch_16_1_main() {
     // in most OSs an executed program's code is run in a process
     // the OS manages processes
 
@@ -34,9 +34,17 @@ pub fn ch_16_1() {
     // join_before_example();
     // print_vec_in_thread();
 
-    move_example();
+    ch_16_1::move_example();
+}
+
+fn ch_16_2_main() {
+    // send_string_through_channel();
+    // use_after_sent();
+    // send_multiple();
+    ch_16_2::multiple_producers();
 }
 
 pub fn main() {
-    ch_16_1();
+    // ch_16_1_main();
+    ch_16_2_main();
 }
