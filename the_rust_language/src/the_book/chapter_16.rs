@@ -1,10 +1,9 @@
-// Concurrent -> different parts of the program execute independently
-// Parallel -> different parts of the program execute at the same time
-
-
-
 use super::ch_16_x::ch_16_1;
 use super::ch_16_x::ch_16_2;
+use super::ch_16_x::ch_16_3;
+
+// Concurrent -> different parts of the program execute independently
+// Parallel -> different parts of the program execute at the same time
 
 fn ch_16_1_main() {
     // in most OSs an executed program's code is run in a process
@@ -44,7 +43,25 @@ fn ch_16_2_main() {
     ch_16_2::multiple_producers();
 }
 
+fn ch_16_3_main() {
+    // message passing is not the only way
+    // there is shared-state as well
+
+    // MUTEX -> allows you to access data from one thread at a time
+    // (mutual exclusion)
+
+    // Mutexes have 2 rules
+    // - attempt to acquire the lock before using the data
+    // - when you're done you must unlock the mutex so other threads can access it
+
+    // Rust's rule prevent you from making Mutex mistakes
+
+    // mutex_example();
+    ch_16_3::mutex_threads();
+}
+
 pub fn main() {
     // ch_16_1_main();
-    ch_16_2_main();
+    // ch_16_2_main();
+    ch_16_3_main();
 }
