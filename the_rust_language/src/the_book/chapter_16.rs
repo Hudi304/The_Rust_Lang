@@ -4,96 +4,9 @@
 use std::thread;
 use std::time::Duration;
 
-fn no_guarantee() {
-    thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
+use super::ch_16_x::ch_16_1::move_example;
 
-    for i in 1..10 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
-}
-
-fn no_guarantee_even_worse() {
-    thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-        }
-    });
-
-    for i in 1..10 {
-        println!("hi number {} from the main thread!", i);
-    }
-}
-
-fn join_example() {
-    let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
-
-    handle.join().unwrap();
-}
-
-fn join_before_example() {
-    let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    handle.join().unwrap();
-
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
-}
-
-// fn print_vec_in_thread() {
-//     let v = vec![1, 2, 3];
-
-//     let handle = thread::spawn(|| {
-//         println!("Here's a vector: {:?}", v);
-//     });
-//     // error is thread may outlive the vector
-//     // this makes sense
-//     // the main thread might end before the spawned thread
-//     // so the reference will not be valid
-
-//     //?  fair enough this can happen as well
-//     // drop(v); // oh no!
-
-//     handle.join().unwrap();
-// }
-
-fn move_example() {
-    let v = vec![1, 2, 3];
-
-    let handle = thread::spawn(move || {
-        println!("Here's a vector: {:?}", v);
-    });
-
-
-    //?  value used after move
-    // drop(v); // oh no!
-
-    handle.join().unwrap();
-}
-
-fn ch_16_1() {
+pub fn ch_16_1() {
     // in most OSs an executed program's code is run in a process
     // the OS manages processes
 
@@ -120,6 +33,7 @@ fn ch_16_1() {
     // join_example();
     // join_before_example();
     // print_vec_in_thread();
+
     move_example();
 }
 

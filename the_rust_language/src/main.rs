@@ -7,8 +7,10 @@
 mod rust_by_example;
 mod swagger_generator;
 mod tests;
-mod the_book;
 mod tools;
+
+mod the_book;
+
 
 //? ALIASES
 #[allow(dead_code, unused, unused_labels)]
