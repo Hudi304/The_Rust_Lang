@@ -1,7 +1,6 @@
 use super::ch_16_x::ch_16_1;
 use super::ch_16_x::ch_16_2;
 use super::ch_16_x::ch_16_3;
-use super::ch_16_x::ch_16_4;
 
 // Concurrent -> different parts of the program execute independently
 // Parallel -> different parts of the program execute at the same time
@@ -82,7 +81,7 @@ fn ch_16_4_main() {
     //? how to implement them?
     // you don't they are marker traits (interfaces)
     // they do not contain any methods
-    
+
 }
 
 pub fn main() {
