@@ -1,6 +1,7 @@
 use super::ch_16_x::ch_16_1;
 use super::ch_16_x::ch_16_2;
 use super::ch_16_x::ch_16_3;
+use super::ch_16_x::ch_16_4;
 
 // Concurrent -> different parts of the program execute independently
 // Parallel -> different parts of the program execute at the same time
@@ -58,6 +59,30 @@ fn ch_16_3_main() {
 
     // mutex_example();
     ch_16_3::mutex_threads();
+}
+
+fn ch_16_4_main() {
+    // there are only 2 things related to concurrency in rust
+    // std::marker's Sync and Send
+
+    //? SEND
+    // Send indicates that the ownership of the value can be transferred between threads
+    // almost all types in rust are Send
+
+    // Rc<T> is not one of them  (more then one thread can update the reference count at the same time)
+    // any type that is composed of Send types is marked as Send
+
+    //? SYNC
+    // indicates that it is safe for a type to be referenced by multiple threads
+    // aka T is Sync if &T (immut ref) is Send 
+
+    // Rc<T>, Cell<T>, RefCell<T> are not Sync
+    // Mutex<T> is Sync
+
+    //? how to implement them?
+    // you don't they are marker traits (interfaces)
+    // they do not contain any methods
+    
 }
 
 pub fn main() {
