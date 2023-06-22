@@ -210,7 +210,7 @@ fn implement_external_traits_on_external_types() {
     println!("w = {}", w);
 }
 
-pub fn ch_19_2() {
+pub fn main() {
     // Advanced Traits
 
     associated_types();

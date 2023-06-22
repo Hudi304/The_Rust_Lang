@@ -1,5 +1,4 @@
-use super::ch_19_x::ch_19_1;
-use super::ch_19_x::ch_19_2;
+use super::ch_19_x::{ch_19_1, ch_19_2, ch_19_3};
 
 pub fn main() {
     //? The unsafe superpowers
@@ -16,6 +15,7 @@ pub fn main() {
     // it simply means that the compiler can not guarantee that it is
     // so the programmer must do the checking by hand
 
-    ch_19_1::ch_19_1();
-    ch_19_2::ch_19_2();
+    ch_19_1::main();
+    ch_19_2::main();
+    ch_19_3::main();
 }

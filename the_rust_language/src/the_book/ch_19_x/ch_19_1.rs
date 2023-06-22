@@ -34,7 +34,7 @@ fn dereferencing_a_raw_pointer() {
     }
 }
 
-pub fn ch_19_1() {
+pub fn main() {
     fn calling_an_unsafe_function() {
         // the unsafe ward means that the Function
         // has some requirements and that we read the
