@@ -1,38 +1,40 @@
-pub fn ch_19_1() {
-    fn dereferencing_a_raw_pointer() {
-        // there are 2 more pointer types in Rust
-        // Raw pointers
-        // a.k.a. *const T and *mut T
+use std::slice;
 
-        // * is not a the dereference operator it's part of the type name
+fn dereferencing_a_raw_pointer() {
+    // there are 2 more pointer types in Rust
+    // Raw pointers
+    // a.k.a. *const T and *mut T
 
-        let mut num = 5;
+    // * is not a the dereference operator it's part of the type name
 
-        let r1 = &num as *const i32;
-        let r2 = &mut num as *mut i32;
+    let mut num = 5;
 
-        // you can create raw pointers in safe code
-        // you just can't dereference it
+    let r1 = &num as *const i32;
+    let r2 = &mut num as *mut i32;
 
-        let address = 0x012345usize;
-        let r = address as *const i32;
+    // you can create raw pointers in safe code
+    // you just can't dereference it
 
-        // *  the dereference operator
+    let address = 0x012345usize;
+    let r = address as *const i32;
 
-        unsafe {
-            println!("r1 is: {}", *r1);
-            println!("r2 is: {}", *r2);
-            // one is immutable
-            // the other one is mutable
-            // this would not be possible
-            // in safe rust
+    // *  the dereference operator
 
-            // this means that you can create a data race
+    unsafe {
+        println!("r1 is: {}", *r1);
+        println!("r2 is: {}", *r2);
+        // one is immutable
+        // the other one is mutable
+        // this would not be possible
+        // in safe rust
 
-            // especially useful when interfacing with C
-        }
+        // this means that you can create a data race
+
+        // especially useful when interfacing with C
     }
+}
 
+pub fn ch_19_1() {
     fn calling_an_unsafe_function() {
         // the unsafe ward means that the Function
         // has some requirements and that we read the
