@@ -1,4 +1,4 @@
-use super::ch_19_x::{ch_19_1, ch_19_2, ch_19_3, ch_19_4};
+use super::ch_19_x::{ch_19_1, ch_19_2, ch_19_3, ch_19_4, ch_19_5};
 
 pub fn main() {
     //? The unsafe superpowers
@@ -16,7 +16,13 @@ pub fn main() {
     // so the programmer must do the checking by hand
 
     ch_19_1::main();
+    println!();
     ch_19_2::main();
+    println!();
     ch_19_3::main();
+    println!();
     ch_19_4::main();
+    println!();
+    ch_19_5::main();
+    println!();
 }
