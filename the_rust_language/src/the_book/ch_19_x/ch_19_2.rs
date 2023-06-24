@@ -212,6 +212,7 @@ fn implement_external_traits_on_external_types() {
 
 pub fn main() {
     // Advanced Traits
+    println!("Ch 19.2");
 
     associated_types();
     default_generic_type_parameters_and_operator_overloading();

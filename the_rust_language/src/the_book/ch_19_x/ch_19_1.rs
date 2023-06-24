@@ -144,6 +144,7 @@ pub fn main() {
     }
 
     // accessing fields of an union is also unsafe
+    println!("Ch 19.1");
 
     calling_an_unsafe_function();
     main();

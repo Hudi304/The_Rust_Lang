@@ -134,7 +134,7 @@ fn dynamically_sized_types_and_the_sized_trait() {
 
     use std::rc::Rc;
 
-    let s3: Box<str> = "Hello there!";
+    // let s3: Box<str> = "Hello there!";
     // let s4: Rc<str> = "How's it going?";
 
     // this also happens with generics
@@ -144,12 +144,12 @@ fn dynamically_sized_types_and_the_sized_trait() {
         todo!()
     }
 
-    fn generic<T: Sized>(t: T) {
+    fn generic2<T: Sized>(t: T) {
         // --snip--
         todo!()
     }
 
-    fn generic<T: ?Sized>(t: &T) {
+    fn generic3<T: ?Sized>(t: &T) {
         // --snip--
     }
 
@@ -157,11 +157,12 @@ fn dynamically_sized_types_and_the_sized_trait() {
     // the type of t changed from T -> &T 
     // because if the type is not sized that means we need to put it behind 
     // some sort of pointer
-    
+
 }
 
 pub fn main() {
     // Advanced types
+    println!("Ch 19.3");
 
     // NewTypes can be used to hide implementation
     // a.k.a. encapsulation
