@@ -1,7 +1,5 @@
 pub fn mutex_example() {
-    use std::rc::Rc;
     use std::sync::Mutex;
-    use std::thread;
 
     let m = Mutex::new(5);
 
