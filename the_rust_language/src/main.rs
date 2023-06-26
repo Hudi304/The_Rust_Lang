@@ -11,7 +11,6 @@ mod tools;
 
 mod the_book;
 
-
 //? ALIASES
 #[allow(dead_code, unused, unused_labels)]
 use rust_by_example::*;
@@ -152,8 +151,7 @@ fn main() {
     // the_book::chapter_18::main();
 
     the_book::chapter_19::main();
-
-
+    the_book::chapter_20::main();
 
     println!("FINISHED SUCCESSFULLY ");
 }

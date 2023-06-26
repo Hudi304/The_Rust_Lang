@@ -2,5 +2,9 @@
   "cSpell.words": [
     "metaprogamming",
     "vals"
+  ],
+  "rust-analyzer.linkedProjects": [
+    ".\\hello\\Cargo.toml",
+    ".\\hello_macro\\Cargo.toml"
   ]
 }
