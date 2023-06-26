@@ -5,6 +5,7 @@
   ],
   "rust-analyzer.linkedProjects": [
     ".\\hello\\Cargo.toml",
-    ".\\hello_macro\\Cargo.toml"
+    ".\\hello_macro\\Cargo.toml",
+    ".\\generator\\Cargo.toml"
   ]
 }
