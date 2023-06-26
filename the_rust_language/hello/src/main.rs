@@ -83,10 +83,27 @@ fn handle_connection(mut stream: TcpStream) {
     stream.write_all(response.as_bytes()).unwrap();
 }
 
+fn graceful_shutdown() {
+    let listener = TcpListener::bind(server_URI).unwrap();
+    let pool = ThreadPool::new(4);
+
+    for stream in listener.incoming().take(2) {
+        let stream = stream.unwrap();
+
+        pool.execute(|| {
+            handle_connection(stream);
+        });
+    }
+
+    println!("Shutting down.");
+}
+
 fn main() {
     // single_threaded_server();
 
     // thread_per_request();
 
-    limited_thread_pool();
+    // limited_thread_pool();
+
+    graceful_shutdown();
 }
