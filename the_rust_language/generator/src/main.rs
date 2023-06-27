@@ -1,11 +1,12 @@
 pub mod config;
 pub mod http;
+pub mod model_extractor;
 
 use reqwest::blocking::get;
 use serde::{self, Deserialize, Serialize};
+use serde_json::{Map, Value};
+use std::rc::Rc;
 
-
-use serde_json::{};
 #[derive(Deserialize)]
 struct SwaggerSchema {
     schema_type: String,
@@ -42,13 +43,6 @@ struct EnumSchema {
 //     }
 // }
 
-fn filter_schemas(schemas: serde_json::Value) {
-    let schemas: serde_json::Map<String, serde_json::Value> = match schemas {
-        serde_json::Value::Object(map) => map,
-        _ => panic!(""),
-    };
-}
-
 fn main() {
     let settings_path = "./local.json".to_owned();
     let locals = config::get_locals(settings_path);
@@ -58,13 +52,13 @@ fn main() {
     let schemas = response_body.components.schemas;
     let paths = response_body.paths;
 
-    let paths: serde_json::Map<String, serde_json::Value> = match paths {
-        serde_json::Value::Object(map) => map,
+    let paths: Map<String, Value> = match paths {
+        Value::Object(map) => map,
         _ => panic!(""),
     };
 
-    let schemas: serde_json::Map<String, serde_json::Value> = match schemas {
-        serde_json::Value::Object(map) => map,
+    let schemas: Map<String, Value> = match schemas {
+        Value::Object(map) => map,
         _ => panic!(""),
     };
 
@@ -72,9 +66,43 @@ fn main() {
     //     println!("{:?}", schema_name);
     // }
 
-    for (path_name, path_value) in paths.into_iter() {
-        println!("{:?}", path_name);
-    }
+    //TODO can you do this without cloning?
+
+    let models: Map<String, Value> = schemas
+        .clone()
+        .into_iter()
+        .filter(|(sch_name, sch_value)| {
+            sch_value
+                .as_object()
+                .expect("Schema is not an object")
+                .get("properties")
+                .is_some()
+        })
+        .collect();
+
+    let enums: Map<String, Value> = schemas
+        .clone()
+        .into_iter()
+        .filter(|(sch_name, sch_value)| {
+            sch_value
+                .as_object()
+                .expect("Schema is not an object")
+                .get("enum")
+                .is_some()
+        })
+        .collect();
+
+    // filter_schemas(&schemas);
+
+    model_extractor::extract_models(&models);
+
+    println!("--------------------------------------------!");
+
+    // filter_models(&schemas);
+
+    // for (path_name, path_value) in paths.into_iter() {
+    //     println!("{:?}", path_name);
+    // }
 
     println!("Hello, world!");
 }
