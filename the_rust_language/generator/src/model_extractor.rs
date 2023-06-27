@@ -1,14 +1,41 @@
 use serde_json::{Map, Value};
-
-fn clean_model_name(name: &String) -> String {
-    return name.replace("`", "");
-}
-
 pub enum PropType {
     Bool,
     String,
     Number,
     Object,
+}
+
+struct SchemaProperty {
+    prop_type: PropType,
+    is_array: bool,
+}
+
+struct ModelSchema {
+    name: String,
+    props: Vec<SchemaProperty>,
+}
+
+impl ModelSchema {
+    fn build((model_name, model_properties): (String, Value)) -> ModelSchema {
+        let porperties = model_properties.get("properties");
+
+        // match porperties {
+        //     Some(e) => e,
+        // }
+    }
+}
+
+fn clean_model_name(name: &String) -> String {
+    return name.replace("`", "");
+}
+
+fn get_default_value() {
+    !todo!();
+}
+
+fn get_constructor() {
+    !todo!();
 }
 
 pub fn extract_models(models: &Map<String, Value>) {
