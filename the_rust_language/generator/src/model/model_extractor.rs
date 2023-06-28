@@ -1,55 +1,7 @@
 use serde_json::{Map, Value};
+use std::fmt::{self, Debug};
 
-#[derive(Debug)]
-pub enum PropType {
-    Bool,
-    String,
-    Number,
-    Object,
-}
-#[derive(Debug)]
-struct PropertySchema {
-    prop_type: PropType,
-    is_array: bool,
-}
-
-impl PropertySchema {
-    fn build((key, value): (&String, &Value)) -> PropertySchema {
-        let prop_name = key;
-        let value = value.as_object().unwrap();
-        let type_option = value.get("type");
-        let mut prop_type_string: String = "".to_owned();
-
-        if (type_option.is_some()) {
-            println!("  {} : {:?}", key, type_option.unwrap().as_str().unwrap());
-            prop_type_string = type_option.unwrap().as_str().unwrap().to_owned();
-        } else {
-            let reference = value
-                .get("$ref")
-                .unwrap()
-                .as_str()
-                .unwrap()
-                .split("/")
-                .last()
-                .unwrap()
-                .to_owned();
-            prop_type_string = reference;
-        }
-
-        let prop_type = match prop_type_string.as_str() {
-            "string" => PropType::String,
-            "number" => PropType::Number,
-            "bool" => PropType::Bool,
-            "object" => PropType::Object,
-            something_else => panic!("unmatched type {:?}", something_else),
-        };
-
-        return PropertySchema {
-            prop_type,
-            is_array: false,
-        };
-    }
-}
+use super::model_prop::{PropType, PropertySchema};
 
 #[derive(Debug)]
 struct ModelSchema {

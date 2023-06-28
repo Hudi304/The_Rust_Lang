@@ -1,9 +1,10 @@
 pub mod config;
 pub mod http;
-pub mod model_extractor;
 pub mod io_utils;
 
+mod model;
 
+use model::{model_extractor, model_prop};
 use reqwest::blocking::get;
 use serde::{self, Deserialize, Serialize};
 use serde_json::{Map, Value};
@@ -44,8 +45,6 @@ struct EnumSchema {
 //         return fmt::Result;
 //     }
 // }
-
-
 
 // TODO implement a global warning system for stuff like finding some primitive type that is not yet defined
 fn main() {
