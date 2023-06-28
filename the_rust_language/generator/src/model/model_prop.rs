@@ -5,18 +5,17 @@ use std::fmt::Debug;
 use crate::Import;
 
 // TODO this might be a good idea when
-pub enum PropType {
-    Bool,
-    String,
-    Number,
-    Object,
-}
+// pub enum PropType {
+//     Bool,
+//     String,
+//     Number,
+//     Object,
+// }
 
 pub struct PropertySchema {
     pub name: String,
     pub prop_type: String,
     pub import: Option<Import>,
-    is_array: bool,
 }
 
 impl Debug for PropertySchema {
@@ -33,7 +32,6 @@ impl PropertySchema {
             name: prop_name.clone(),
             prop_type,
             import: import_option,
-            is_array: false,
         }
     }
 }

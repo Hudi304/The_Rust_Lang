@@ -14,13 +14,6 @@ pub struct Import {
     pub path: String,
 }
 
-#[derive(Deserialize)]
-struct SwaggerSchema {
-    schema_type: String,
-    //TODO check if you can add a type for the value
-    properties: serde_json::Value,
-    additionalProperties: bool,
-}
 
 #[derive(Serialize, Deserialize, Debug)]
 struct SchemaProperty {
@@ -28,17 +21,10 @@ struct SchemaProperty {
     nullable: bool,
 }
 
-struct ModelSchema {
-    schema_type: String,
-    //TODO check if you can add a type for the value
-    properties: serde_json::Value,
-    additionalProperties: bool,
-}
-
-struct EnumSchema {
-    enum_values: Vec<String>,
-    enum_type: String,
-}
+// struct EnumSchema {
+//     enum_values: Vec<String>,
+//     enum_type: String,
+// }
 
 // TODO try implementing Debug for external struct
 // impl fmt::Debug for serde_json::Map<K, V> {
@@ -60,7 +46,7 @@ fn main() {
     let schemas = response_body.components.schemas;
     let paths = response_body.paths;
 
-    let paths: Map<String, Value> = match paths {
+    let _paths: Map<String, Value> = match paths {
         Value::Object(map) => map,
         _ => panic!(""),
     };
@@ -70,16 +56,12 @@ fn main() {
         _ => panic!(""),
     };
 
-    // for (schema_name, schema_value) in schemas.into_iter() {
-    //     println!("{:?}", schema_name);
-    // }
-
     //TODO can you do this without cloning?
 
     let models: Map<String, Value> = schemas
         .clone()
         .into_iter()
-        .filter(|(sch_name, sch_value)| {
+        .filter(|(_, sch_value)| {
             sch_value
                 .as_object()
                 .expect("Schema is not an object")
@@ -88,10 +70,10 @@ fn main() {
         })
         .collect();
 
-    let enums: Map<String, Value> = schemas
+    let _enums: Map<String, Value> = schemas
         .clone()
         .into_iter()
-        .filter(|(sch_name, sch_value)| {
+        .filter(|(_, sch_value)| {
             sch_value
                 .as_object()
                 .expect("Schema is not an object")
@@ -99,8 +81,6 @@ fn main() {
                 .is_some()
         })
         .collect();
-
-    // filter_schemas(&schemas);
 
     model_extractor::extract_models(&models);
 

@@ -18,6 +18,7 @@ pub fn write_file(file: FileSchema) {
     match File::create(file_path.clone()) {
         Err(error) => {
             // print_create_file_error(error, file_path);
+            println!("Error writing file {error}");
             return;
         }
         Ok(f) => file = f,
