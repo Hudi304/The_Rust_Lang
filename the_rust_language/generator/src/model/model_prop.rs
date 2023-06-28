@@ -18,7 +18,7 @@ pub struct PropertySchema {
 
 impl Debug for PropertySchema {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "\n   {} {}", self.name, self.prop_type)
+        write!(f, "{} {}", self.name, self.prop_type)
     }
 }
 

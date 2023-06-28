@@ -102,8 +102,6 @@ fn main() {
 
     println!("--------------------------------------------!");
 
-    // filter_models(&schemas);
-
     // for (path_name, path_value) in paths.into_iter() {
     //     println!("{:?}", path_name);
     // }

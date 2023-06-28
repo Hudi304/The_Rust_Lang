@@ -3,26 +3,18 @@ use std::fmt::{self, Debug};
 
 use super::model_prop::{PropType, PropertySchema};
 
-#[derive(Debug)]
+// #[derive(Debug)]
 struct ModelSchema {
     name: String,
     props: Vec<PropertySchema>,
     schema_type: String,
 }
 
-// impl Debug for ModelSchema {
-//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-//         let self_clone = self.clone();
-//         let props_string = self
-//             .props
-//             .clone()
-//             .into_iter()
-//             .map(|prop| prop.name.clone().to_owned() + " " + prop.prop_type.clone().as_str())
-//             .collect::<Vec<String>>()
-//             .join("\n");
-//         write!(f, "{} {}", self_clone.name, props_string)
-//     }
-// }
+impl Debug for ModelSchema {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{} : {{\n  props : {:#?} }}", self.name, self.props)
+    }
+}
 
 impl ModelSchema {
     fn build((model_name, model_properties): (String, Value)) -> ModelSchema {
@@ -67,6 +59,6 @@ pub fn extract_models(models: &Map<String, Value>) {
         let model_clone = (name.clone(), value.clone());
         let model_schema = ModelSchema::build(model_clone);
 
-        // println!("{:#?}", model_schema);
+        println!("{:#?}", model_schema);
     }
 }
