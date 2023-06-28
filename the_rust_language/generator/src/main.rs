@@ -1,6 +1,8 @@
 pub mod config;
 pub mod http;
 pub mod model_extractor;
+pub mod io_utils;
+
 
 use reqwest::blocking::get;
 use serde::{self, Deserialize, Serialize};
@@ -43,6 +45,9 @@ struct EnumSchema {
 //     }
 // }
 
+
+
+// TODO implement a global warning system for stuff like finding some primitive type that is not yet defined
 fn main() {
     let settings_path = "./local.json".to_owned();
     let locals = config::get_locals(settings_path);
