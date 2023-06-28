@@ -36,6 +36,8 @@ struct SchemaProperty {
 //     }
 // }
 
+// TODO implement some kind of testing for a whole swagger.json
+
 // TODO implement a global warning system for stuff like finding some primitive type that is not yet defined
 fn main() {
     let settings_path = "./local.json".to_owned();
@@ -56,7 +58,7 @@ fn main() {
         _ => panic!(""),
     };
 
-    //TODO can you do this without cloning?
+    //TODO can you do this without cloning maybe reference counting ?
 
     let models: Map<String, Value> = schemas
         .clone()

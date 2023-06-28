@@ -20,11 +20,7 @@ pub struct PropertySchema {
 
 impl Debug for PropertySchema {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "{} {} ---- ({:?})",
-            self.name, self.prop_type, self.import
-        )
+        write!(f, "{} {} - ({:?})", self.name, self.prop_type, self.import)
     }
 }
 
@@ -54,6 +50,7 @@ fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
         None => None,
     };
 
+    // why the hell can I not return strings from this?
     match (prop_type, ref_type) {
         (Some(pt), Some(rt)) => {
             let prop_type_str = pt.as_str().unwrap().to_owned();
@@ -62,7 +59,6 @@ fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
             }
             return (rt, import_option);
         }
-        (None, Some(rt)) => return (rt, import_option),
         (Some(pt), None) => {
             let prop_type_str = pt.as_str().unwrap().to_owned();
             if prop_type_str.eq("array") {
@@ -71,6 +67,7 @@ fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
             }
             return (pt.as_str().unwrap().to_owned(), import_option);
         }
+        (None, Some(rt)) => return (rt, import_option),
         (None, None) => (String::from("any"), None),
     }
 
