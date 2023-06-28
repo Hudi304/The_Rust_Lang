@@ -24,23 +24,20 @@ impl Debug for PropertySchema {
 
 impl PropertySchema {
     pub fn build((prop_name, prop_value): (&String, &Value)) -> PropertySchema {
-        let prop_name = prop_name;
-
         let prop_type = get_prop_type(prop_value);
-        // println!("{:?}", prop_type);
 
-        let prop_type = return PropertySchema {
+        PropertySchema {
             name: prop_name.clone(),
             prop_type,
             is_array: false,
-        };
+        }
     }
 }
 
+// TODO these 2 function can be a single big one
 fn get_prop_type(full_prop: &Value) -> String {
     let prop_type = full_prop.get("type");
     let items = full_prop.get("items");
-
     let ref_type = get_ref(&full_prop);
 
     let prop_type = match (prop_type, ref_type) {
