@@ -1,6 +1,8 @@
-use serde_json::{Map, Value};
+use serde_json::Value;
 use std::fmt;
 use std::fmt::Debug;
+
+use crate::Import;
 
 // TODO this might be a good idea when
 pub enum PropType {
@@ -13,54 +15,64 @@ pub enum PropType {
 pub struct PropertySchema {
     pub name: String,
     pub prop_type: String,
+    pub import: Option<Import>,
     is_array: bool,
 }
 
 impl Debug for PropertySchema {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} {}", self.name, self.prop_type)
+        write!(f, "{} {} ---- ({:?})", self.name, self.prop_type, self.import)
     }
 }
 
 impl PropertySchema {
     pub fn build((prop_name, prop_value): (&String, &Value)) -> PropertySchema {
-        let prop_type = get_prop_type(prop_value);
+        let (prop_type, import_option) = get_prop_type(prop_value);
 
         PropertySchema {
             name: prop_name.clone(),
             prop_type,
+            import: import_option,
             is_array: false,
         }
     }
 }
 
 // TODO these 2 function can be a single big one
-fn get_prop_type(full_prop: &Value) -> String {
+fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
     let prop_type = full_prop.get("type");
     let items = full_prop.get("items");
     let ref_type = get_ref(&full_prop);
 
-    let prop_type = match (prop_type, ref_type) {
-        (Some(pt), Some(rt)) => {
-            let prop_type_str = pt.as_str().unwrap().to_owned();
-            if (prop_type_str.eq("array")) {
-                return rt + "[]";
-            }
-            return rt;
-        }
-        (None, Some(rt)) => return rt,
-        (Some(pt), None) => {
-            let prop_type_str = pt.as_str().unwrap().to_owned();
-            if (prop_type_str.eq("array")) {
-                let items_type = items.unwrap().get("type").unwrap().as_str().unwrap();
-                return items_type.to_owned() + "[]";
-            }
-            return pt.as_str().unwrap().to_owned();
-        }
-        (None, None) => String::from("any"),
+    let import_option = match ref_type {
+        Some(ref reference) => Some(Import {
+            name: reference.clone().to_owned(),
+            path: "".to_owned(),
+        }),
+        None => None,
     };
 
-    return prop_type;
+    match (prop_type, ref_type) {
+        (Some(pt), Some(rt)) => {
+            let prop_type_str = pt.as_str().unwrap().to_owned();
+            if prop_type_str.eq("array") {
+                return (rt + "[]", import_option);
+            }
+            return (rt, import_option);
+        }
+        (None, Some(rt)) => return (rt, import_option),
+        (Some(pt), None) => {
+            let prop_type_str = pt.as_str().unwrap().to_owned();
+            if prop_type_str.eq("array") {
+                let items_type = items.unwrap().get("type").unwrap().as_str().unwrap();
+                return (items_type.to_owned() + "[]", import_option);
+            }
+            return (pt.as_str().unwrap().to_owned(), import_option);
+        }
+        (None, None) => (String::from("any"), None),
+    }
+
+    // return (prop_type, import_option);
 }
 
 // TODO add docs
@@ -72,7 +84,7 @@ fn get_ref(prop_value: &Value) -> Option<String> {
 
     match (first_level_ref, items_ref) {
         (Some(_), Some(items)) => {
-            if (items.get("$ref").is_none()) {
+            if items.get("$ref").is_none() {
                 return None;
             }
             let reference = items.get("$ref").unwrap();
@@ -82,7 +94,7 @@ fn get_ref(prop_value: &Value) -> Option<String> {
             return Some(result);
         }
         (None, Some(items)) => {
-            if (items.get("$ref").is_none()) {
+            if items.get("$ref").is_none() {
                 return None;
             }
             let reference = items.get("$ref").unwrap();

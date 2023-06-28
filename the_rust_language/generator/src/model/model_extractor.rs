@@ -1,9 +1,8 @@
 use serde_json::{Map, Value};
 use std::fmt::{self, Debug};
 
-use super::model_prop::{PropType, PropertySchema};
+use super::model_prop::PropertySchema;
 
-// #[derive(Debug)]
 struct ModelSchema {
     name: String,
     props: Vec<PropertySchema>,
@@ -46,13 +45,13 @@ fn clean_model_name(name: &String) -> String {
     return name.replace("`", "");
 }
 
-fn get_default_value() {
-    !todo!();
-}
+// fn get_default_value() {
+//     !todo!();
+// }
 
-fn get_constructor() {
-    !todo!();
-}
+// fn get_constructor() {
+//     !todo!();
+// }
 
 pub fn extract_models(models: &Map<String, Value>) {
     for (name, value) in models.iter() {

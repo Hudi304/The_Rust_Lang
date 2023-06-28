@@ -4,11 +4,15 @@ pub mod io_utils;
 
 mod model;
 
-use model::{model_extractor, model_prop};
-use reqwest::blocking::get;
+use model::model_extractor;
 use serde::{self, Deserialize, Serialize};
 use serde_json::{Map, Value};
-use std::rc::Rc;
+
+#[derive(Debug)]
+pub struct Import {
+    pub name: String,
+    pub path: String,
+}
 
 #[derive(Deserialize)]
 struct SwaggerSchema {
