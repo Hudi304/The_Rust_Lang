@@ -20,7 +20,11 @@ pub struct PropertySchema {
 
 impl Debug for PropertySchema {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} {} ---- ({:?})", self.name, self.prop_type, self.import)
+        write!(
+            f,
+            "{} {} ---- ({:?})",
+            self.name, self.prop_type, self.import
+        )
     }
 }
 
@@ -35,7 +39,7 @@ impl PropertySchema {
         }
     }
 }
-
+// TODO this needs a refactor
 // TODO these 2 function can be a single big one
 fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
     let prop_type = full_prop.get("type");
@@ -120,52 +124,50 @@ mod primitive_types {
 
     use super::*;
 
+    //TODO maybe find a way to do this in some kind of loop
+    // this is a lot of code repetition
     #[test]
     fn prop_type_number() {
-        let number_data = r#"
-        {
-            "type": "number"
-        }"#;
+        let number_data = r#"{ "type": "number" }"#;
 
         let prop_json: Value = serde_json::from_str(number_data).unwrap();
+        let (props_type, imp) = get_prop_type(&prop_json);
 
-        assert_eq!(get_prop_type(&prop_json).eq("number"), true);
+        assert_eq!(props_type.eq("number"), true);
+        assert_eq!(imp.is_none(), true);
     }
 
     #[test]
     fn prop_type_string() {
-        let string_data = r#"
-        {
-            "type": "string"
-        }"#;
+        let string_data = r#"{ "type": "string" }"#;
 
         let prop_json: Value = serde_json::from_str(string_data).unwrap();
+        let (props_type, imp) = get_prop_type(&prop_json);
 
-        assert_eq!(get_prop_type(&prop_json).eq("string"), true);
+        assert_eq!(props_type.eq("string"), true);
+        assert_eq!(imp.is_none(), true);
     }
 
     #[test]
     fn prop_type_bool() {
-        let bool_data = r#"
-        {
-            "type": "bool"
-        }"#;
+        let bool_data = r#"{ "type": "bool" }"#;
 
         let prop_json: Value = serde_json::from_str(bool_data).unwrap();
+        let (props_type, imp) = get_prop_type(&prop_json);
 
-        assert_eq!(get_prop_type(&prop_json).eq("bool"), true);
+        assert_eq!(props_type.eq("bool"), true);
+        assert_eq!(imp.is_none(), true);
     }
 
     #[test]
     fn prop_type_obj_type() {
-        let obj_data = r#"
-        {
-            "type": "object"
-        }"#;
+        let obj_data = r#"{ "type": "object" }"#;
 
         let prop_json: Value = serde_json::from_str(obj_data).unwrap();
+        let (props_type, imp) = get_prop_type(&prop_json);
 
-        assert_eq!(get_prop_type(&prop_json).eq("object"), true);
+        assert_eq!(props_type.eq("object"), true);
+        assert_eq!(imp.is_none(), true);
     }
 
     #[test]
@@ -177,12 +179,13 @@ mod primitive_types {
                 "type": "string",
                 "format": "uuid"
             }
-        }
-        "#;
+        }"#;
 
         let prop_json: Value = serde_json::from_str(obj_data).unwrap();
+        let (props_type, imp) = get_prop_type(&prop_json);
 
-        assert_eq!(get_prop_type(&prop_json).eq("string[]"), true);
+        assert_eq!(props_type.eq("string[]"), true);
+        assert_eq!(imp.is_none(), true);
     }
 }
 
@@ -192,7 +195,21 @@ mod object_schema_types {
     use super::*;
 
     #[test]
-    fn prop_type_obj_array() {
+    fn prop_type_obj_schema() {
+        let obj_data = r#"
+        {
+            "$ref": "/components/schemas/Sort10"
+        }"#;
+
+        let prop_json: Value = serde_json::from_str(obj_data).unwrap();
+        let (props_type, imp) = get_prop_type(&prop_json);
+
+        assert_eq!(props_type.eq("Sort10"), true);
+        assert_eq!(imp.unwrap().name.eq("Sort10"), true);
+    }
+
+    #[test]
+    fn prop_type_obj_schema_array() {
         let obj_data = r#"
         {
             "type": "array",
@@ -202,19 +219,9 @@ mod object_schema_types {
         }"#;
 
         let prop_json: Value = serde_json::from_str(obj_data).unwrap();
+        let (props_type, imp) = get_prop_type(&prop_json);
 
-        assert_eq!(get_prop_type(&prop_json).eq("Sort10[]"), true);
-    }
-
-    #[test]
-    fn prop_type_obj_schema() {
-        let obj_data = r#"
-        {
-            "$ref": "/components/schemas/Sort10"
-        }"#;
-
-        let prop_json: Value = serde_json::from_str(obj_data).unwrap();
-
-        assert_eq!(get_prop_type(&prop_json).eq("Sort10"), true);
+        assert_eq!(props_type.eq("Sort10[]"), true);
+        assert_eq!(imp.unwrap().name.eq("Sort10"), true);
     }
 }
