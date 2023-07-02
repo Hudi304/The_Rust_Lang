@@ -49,7 +49,7 @@ fn clean_model_name(name: &String) -> String {
 
 pub fn extract_models(models: &Map<String, Value>) {
     for (name, value) in models.iter() {
-        let _model_schema = ModelSchema::build((name, value));
-        // println!("{:#?}", model_schema);
+        let model_schema = ModelSchema::build((name, value));
+        println!("{:#?}", model_schema);
     }
 }

@@ -2,9 +2,12 @@ pub mod config;
 pub mod http;
 pub mod io_utils;
 
+mod endpoints;
 mod model;
 
+use endpoints::endpoint_extractor;
 use model::model_extractor;
+
 use serde::{self, Deserialize, Serialize};
 use serde_json::{Map, Value};
 
@@ -13,7 +16,6 @@ pub struct Import {
     pub name: String,
     pub path: String,
 }
-
 
 #[derive(Serialize, Deserialize, Debug)]
 struct SchemaProperty {
@@ -48,14 +50,16 @@ fn main() {
     let schemas = response_body.components.schemas;
     let paths = response_body.paths;
 
-    let _paths: Map<String, Value> = match paths {
+    let paths: Map<String, Value> = match paths {
         Value::Object(map) => map,
-        _ => panic!(""),
+        _ => panic!("Root json does not have a 'paths' key"),
     };
+    
+    endpoint_extractor::extract_endpoints(&paths);
 
     let schemas: Map<String, Value> = match schemas {
         Value::Object(map) => map,
-        _ => panic!(""),
+        _ => panic!("Root json does not have a 'schemas' key"),
     };
 
     //TODO can you do this without cloning maybe reference counting ?
