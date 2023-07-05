@@ -5,6 +5,8 @@ pub mod io_utils;
 mod endpoints;
 mod model;
 
+use std::path;
+
 use endpoints::endpoint_extractor;
 use model::model_extractor;
 
@@ -88,13 +90,10 @@ fn main() {
         })
         .collect();
 
-    model_extractor::extract_models(&models);
+    // model_extractor::extract_models(&models);
+    endpoint_extractor::extract_endpoints(&paths);
+
 
     println!("--------------------------------------------!");
 
-    // for (path_name, path_value) in paths.into_iter() {
-    //     println!("{:?}", path_name);
-    // }
-
-    println!("Hello, world!");
 }
