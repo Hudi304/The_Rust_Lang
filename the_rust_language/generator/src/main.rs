@@ -4,11 +4,13 @@ pub mod io_utils;
 
 mod endpoints;
 mod model;
+mod utils;
 
 use std::path;
 
 use endpoints::endpoint_extractor;
 use model::model_extractor;
+use utils::type_utils;
 
 use serde::{self, Deserialize, Serialize};
 use serde_json::{Map, Value};

@@ -3,6 +3,7 @@ use std::fmt;
 use std::fmt::Debug;
 
 use crate::Import;
+use crate::utils::type_utils::get_ref;
 
 // TODO this might be a good idea when
 // pub enum PropType {
@@ -40,7 +41,7 @@ impl PropertySchema {
 fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
     let prop_type = full_prop.get("type");
     let items = full_prop.get("items");
-    let ref_type = get_ref(&full_prop);
+    let ref_type = get_ref(&full_prop, "items");
 
     let import_option = match ref_type {
         Some(ref reference) => Some(Import {
@@ -72,48 +73,6 @@ fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
     }
 
     // return (prop_type, import_option);
-}
-
-// TODO add docs
-// this takes the body of a prop and it returns the name of the schema
-// that is referred
-fn get_ref(prop_value: &Value) -> Option<String> {
-    let first_level_ref = prop_value.get("$ref");
-    let items_ref = prop_value.get("items");
-
-    match (first_level_ref, items_ref) {
-        (Some(_), Some(items)) => {
-            if items.get("$ref").is_none() {
-                return None;
-            }
-            let reference = items.get("$ref").unwrap();
-            let reference = reference.as_str().unwrap();
-            let reference = reference.to_owned();
-            let result = clean_ref_name(reference);
-            return Some(result);
-        }
-        (None, Some(items)) => {
-            if items.get("$ref").is_none() {
-                return None;
-            }
-            let reference = items.get("$ref").unwrap();
-            let reference = reference.as_str().unwrap();
-            let reference = reference.to_owned();
-            let result = clean_ref_name(reference);
-            return Some(result);
-        }
-        (Some(reference), None) => {
-            let reference = reference.as_str().unwrap();
-            let reference = reference.to_owned();
-            let result = clean_ref_name(reference);
-            return Some(result);
-        }
-        (None, None) => None,
-    }
-}
-
-fn clean_ref_name(reference: String) -> String {
-    return reference.split("/").last().unwrap().to_owned();
 }
 
 #[cfg(test)]

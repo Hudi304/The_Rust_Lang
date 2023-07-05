@@ -1,5 +1,7 @@
 use serde_json::{Map, Value};
 
+use crate::utils::type_utils::get_ref;
+
 #[derive(Debug)]
 pub enum ParamPlace {
     QUERY,
@@ -36,16 +38,20 @@ impl EndpointParameter {
         let param_place = param_place.as_str().expect("key 'in' is not a string");
         let param_place = ParamPlace::new(param_place);
 
+        let ref_param_type = get_ref(param_value, "schema");
+        let param_type = param_value.get("schema").unwrap().get("type");
+
+        let mut par_type = String::from("Default_param_type");
+        if let Some(ref_name) = ref_param_type {
+            par_type = ref_name;
+        };
+        if let Some(param_val) = param_type {
+            par_type = param_val.as_str().unwrap().to_owned();
+        };
+
         EndpointParameter {
             param_place: param_place,
-            param_type: param_value
-                .get("schema")
-                .unwrap()
-                .get("type")
-                .unwrap()
-                .as_str()
-                .unwrap()
-                .to_owned(),
+            param_type: par_type,
             param_name: param_value
                 .get("name")
                 .unwrap()

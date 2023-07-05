@@ -2,6 +2,7 @@ use serde_json::{Map, Value};
 use std::fmt::{self, Debug};
 
 use super::model_prop::PropertySchema;
+use crate::utils::type_utils::clean_model_name;
 
 struct ModelSchema {
     name: String,
@@ -37,10 +38,6 @@ impl ModelSchema {
             props: props_schema_vector,
         };
     }
-}
-
-fn clean_model_name(name: &String) -> String {
-    return name.replace("`", "");
 }
 
 // fn get_constructor() {
