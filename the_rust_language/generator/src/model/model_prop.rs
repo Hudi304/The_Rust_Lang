@@ -38,7 +38,8 @@ impl PropertySchema {
 }
 // TODO this needs a refactor
 // TODO these 2 function can be a single big one
-fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
+// ! implement generic here
+pub fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
     let prop_type = full_prop.get("type");
     let items = full_prop.get("items");
     let ref_type = get_ref(&full_prop, "items");

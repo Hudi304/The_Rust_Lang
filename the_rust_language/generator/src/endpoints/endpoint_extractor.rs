@@ -1,5 +1,7 @@
 use serde_json::{Map, Value};
 
+use crate::{model::model_prop::get_prop_type, Import};
+
 use super::{
     endpoint_parameter::{EndpointParameter, ParamPlace},
     http_method::HttpMethod,
@@ -29,6 +31,7 @@ struct EndpointSchema {
     path_params: Vec<EndpointParameter>,
     query_params: Vec<EndpointParameter>,
 
+    response_type: (String, Option<Import>),
     // request_body: Option<RequestBody>,
     // responses: Map<ui32, String>, // status code  = key , String = type
     tags: Vec<String>,
@@ -44,6 +47,10 @@ impl EndpointSchema {
 
         let (path_params, query_params) = get_parameters(values);
 
+        let (return_type, import) = get_return_types(values);
+
+        // println!("{}\n  {}", path, return_type);
+
         return EndpointSchema {
             path: path.clone(),
             http_method: mtd,
@@ -51,19 +58,56 @@ impl EndpointSchema {
             fn_name: fn_name,
             path_params: path_params,
             query_params: query_params,
+            response_type: get_return_types(values),
 
             tags: tags,
         };
     }
 }
 
-fn get_return_types(endpoints_values: &Value) -> String {
+// returns any if any of the check fail
+// TODO there is a bug here test with /supplier-portal/invoices
+// 
+fn get_return_types(endpoints_values: &Value) -> (String, Option<Import>) {
+    let any = String::from("any");
+
     let responses = match endpoints_values.get("responses") {
         Some(models_per_status_code) => models_per_status_code,
-        None => return String::from("any"),
+        None => return (any, None),
     };
 
-    String::from("")
+    let mut result = (any.clone(), None);
+
+    for (status_code, values) in responses
+        .as_object()
+        .expect("Endpoint 'responses' is not and object ")
+        .into_iter()
+    {
+        if (!status_code.eq("200")) {
+            continue;
+        }
+
+        let context = match values.get("content") {
+            Some(ctx) => ctx,
+            None => return (any, None),
+        };
+
+        let app_json = match context.get("application/json") {
+            Some(app_json) => app_json,
+            None => return (any, None),
+        };
+
+        let type_schema = match app_json.get("schema") {
+            Some(type_schema) => type_schema,
+            None => return (any, None),
+        };
+
+        let response_type = get_prop_type(type_schema);
+
+        result = response_type;
+    }
+
+    result
 }
 
 fn get_parameters(endpoints_values: &Value) -> (Vec<EndpointParameter>, Vec<EndpointParameter>) {

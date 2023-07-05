@@ -23,7 +23,6 @@ impl ParamPlace {
 
 #[derive(Debug)]
 pub struct EndpointParameter {
-    // find a better name of this
     pub param_place: ParamPlace,
     pub param_name: String,
     pub param_type: String,
@@ -38,26 +37,36 @@ impl EndpointParameter {
         let param_place = param_place.as_str().expect("key 'in' is not a string");
         let param_place = ParamPlace::new(param_place);
 
-        let ref_param_type = get_ref(param_value, "schema");
-        let param_type = param_value.get("schema").unwrap().get("type");
-
-        let mut par_type = String::from("Default_param_type");
-        if let Some(ref_name) = ref_param_type {
-            par_type = ref_name;
-        };
-        if let Some(param_val) = param_type {
-            par_type = param_val.as_str().unwrap().to_owned();
-        };
-
         EndpointParameter {
             param_place: param_place,
-            param_type: par_type,
-            param_name: param_value
-                .get("name")
-                .unwrap()
-                .as_str()
-                .unwrap()
-                .to_owned(),
+            param_type: get_param_type(param_value),
+            param_name: get_param_name(param_value),
         }
     }
+}
+
+fn get_param_name(param_value: &Value) -> String {
+    param_value
+        .get("name")
+        .expect("Endpoint parameter does not have a name")
+        .as_str()
+        .expect("Endpoint name is not a string")
+        .to_owned()
+}
+
+fn get_param_type(param_value: &Value) -> String {
+    let ref_param_type = get_ref(param_value, "schema");
+    let schema_type_opt = param_value.get("schema").unwrap().get("type");
+
+    let mut param_type = String::from("Default_param_type");
+
+    if let Some(ref_name) = ref_param_type {
+        param_type = ref_name;
+    };
+
+    if let Some(param_val) = schema_type_opt {
+        param_type = param_val.as_str().unwrap().to_owned();
+    };
+
+    return param_type;
 }
