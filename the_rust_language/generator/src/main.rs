@@ -92,7 +92,7 @@ fn main() {
         })
         .collect();
 
-    // model_extractor::extract_models(&models);
+    model_extractor::extract_models(&models);
     endpoint_extractor::extract_endpoints(&paths);
 
 

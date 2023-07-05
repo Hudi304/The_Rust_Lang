@@ -2,8 +2,8 @@ use serde_json::Value;
 use std::fmt;
 use std::fmt::Debug;
 
-use crate::Import;
 use crate::utils::type_utils::get_ref;
+use crate::Import;
 
 // TODO this might be a good idea when
 // pub enum PropType {
@@ -51,8 +51,7 @@ fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
         None => None,
     };
 
-    // why the hell can I not return strings from this?
-    match (prop_type, ref_type) {
+    let (a, b) = match (prop_type, ref_type) {
         (Some(pt), Some(rt)) => {
             let prop_type_str = pt.as_str().unwrap().to_owned();
             if prop_type_str.eq("array") {
@@ -69,8 +68,10 @@ fn get_prop_type(full_prop: &Value) -> (String, Option<Import>) {
             return (pt.as_str().unwrap().to_owned(), import_option);
         }
         (None, Some(rt)) => return (rt, import_option),
-        (None, None) => (String::from("any"), None),
-    }
+        (None, None) => return (String::from("any"), None),
+    };
+
+    return (a, b);
 
     // return (prop_type, import_option);
 }

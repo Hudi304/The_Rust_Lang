@@ -28,7 +28,7 @@ struct EndpointSchema {
     fn_name: String,
     path_params: Vec<EndpointParameter>,
     query_params: Vec<EndpointParameter>,
-    // params: Vec<EndpointParameter>,
+
     // request_body: Option<RequestBody>,
     // responses: Map<ui32, String>, // status code  = key , String = type
     tags: Vec<String>,
@@ -55,6 +55,15 @@ impl EndpointSchema {
             tags: tags,
         };
     }
+}
+
+fn get_return_types(endpoints_values: &Value) -> String {
+    let responses = match endpoints_values.get("responses") {
+        Some(models_per_status_code) => models_per_status_code,
+        None => return String::from("any"),
+    };
+
+    String::from("")
 }
 
 fn get_parameters(endpoints_values: &Value) -> (Vec<EndpointParameter>, Vec<EndpointParameter>) {
@@ -134,12 +143,19 @@ pub fn extract_endpoints(paths: &Map<String, Value>) {
 }
 
 #[cfg(test)]
-mod primitive_types {
+mod extractor {
 
     use super::*;
 
     //TODO maybe find a way to do this in some kind of loop
     // this is a lot of code repetition
     #[test]
-    fn multiple_methods_endpoint() {}
+    fn multiple_methods_endpoint() {
+        let number_data = r#"{ }"#;
+
+        let prop_json: Value = serde_json::from_str(number_data).unwrap();
+        let return_type = get_return_types(&prop_json);
+
+        assert_eq!(return_type.eq("any"), true);
+    }
 }
