@@ -62,8 +62,10 @@ fn get_return_types(endpoints_values: &Value) -> (String, Option<Import>) {
         .expect("Endpoint 'responses' is not and object ");
 
     for (status_code, values) in endpoint_responses.into_iter() {
-        if !status_code.eq("200") {
-            continue;
+        match status_code.as_str() {
+            "200" => (),
+            "201" => (),
+            _ => continue,
         }
 
         let context = match values.get("content") {

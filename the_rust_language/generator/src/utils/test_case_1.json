@@ -1,5 +1,5 @@
 {
-  "/some/path": {
+  "/path": {
     "get": {
       "tags": [
         "Invoice"

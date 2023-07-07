@@ -210,21 +210,38 @@ mod obj_extract_type {
 #[cfg(test)]
 mod endpoint_return_type {
 
+    use std::fs;
+
     use super::*;
 
     static secondary_key: &str = "items";
 
+    pub fn read_json(path: &str) -> Value {
+        let error_message = format!("\n     Could not read {path}.json file \n");
+        let file = &fs::read_to_string(path).expect(&error_message);
+        return serde_json::from_str::<Value>(&file).unwrap();
+    }
+
     #[test]
     fn top_level_ref_model_name_and_import() {
-        let obj_data = r#"
-        {
-            "$ref": "/components/schemas/Sort10"
-        }"#;
+        // Arrange
+        let obj_data = read_json("./src/utils/test_case_1.json");
 
-        let schema: Value = serde_json::from_str(obj_data).unwrap();
-        let (schema_type, imp) = extract_type(&schema, secondary_key);
+        let schema = obj_data.get("/path").unwrap();
+        let schema = schema.get("get").unwrap();
+        let schema = schema.get("responses").unwrap();
+        let schema = schema.get("200").unwrap();
+        let schema = schema.get("content").unwrap();
+        let schema = schema.get("application/json").unwrap();
+        let schema = schema.get("schema").unwrap();
 
-        assert_eq!(schema_type.eq("Sort10"), true);
-        assert_eq!(imp.unwrap().name.eq("Sort10"), true);
+        // Act
+        let (schema_type, imp) = extract_type(schema, secondary_key);
+        // println!("\n\n schema_type : {} \n\n", schema_type);
+        // println!("\n\n import : {:?} \n\n", imp);
+
+        // Assert
+        assert_eq!(schema_type.eq("Model[]"), true);
+        assert_eq!(imp.unwrap().name.eq("Model"), true);
     }
 }
