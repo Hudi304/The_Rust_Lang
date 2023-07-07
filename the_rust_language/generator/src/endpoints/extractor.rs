@@ -1,6 +1,6 @@
 use serde_json::{Map, Value};
 
-use crate::{utils::type_utils::extract_type, Import};
+use crate::{Import, utils::type_utils::extract_type};
 
 use super::{
     http_method::HttpMethod,
@@ -158,8 +158,8 @@ pub fn extract_endpoints(paths: &Map<String, Value>) {
         for (http_method, values) in methods.into_iter() {
             let mtd = HttpMethod::new(http_method);
             let _endpoint_schema = EndpointSchema::build(mtd, path, values);
-            // println!("{http_method} {path}");
-            // println!("{:#?}", _endpoint_schema);
+            println!("{http_method} {path}");
+            println!("{:#?}", _endpoint_schema);
         }
     }
 }
