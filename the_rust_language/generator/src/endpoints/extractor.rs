@@ -174,13 +174,17 @@ mod extractor {
     //TODO maybe find a way to do this in some kind of loop
     // this is a lot of code repetition
     #[test]
-    #[ignore]
     fn multiple_methods_endpoint() {
+        // Arrange
         let number_data = r#"{ }"#;
 
+        // Act
         let prop_json: Value = serde_json::from_str(number_data).unwrap();
-        let return_type = get_return_types(&prop_json);
+        let (return_type, import) = get_return_types(&prop_json);
+        // println!("{}, {:?} ", return_type, import);
 
-        // assert_eq!(return_type.eq("any"), true);
+        // Assert
+        assert_eq!(return_type.eq("any"), true);
+        assert_eq!(import.is_none(), true);
     }
 }
