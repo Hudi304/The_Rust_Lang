@@ -1,12 +1,12 @@
 use serde_json::{Map, Value};
 use std::fmt::{self, Debug};
 
-use super::model_prop::PropertySchema;
+use super::model_prop::PropSchema;
 use crate::utils::type_utils::clean_model_name;
 
 struct ModelSchema {
     name: String,
-    props: Vec<PropertySchema>,
+    props: Vec<PropSchema>,
     // schema_type: String,
 }
 
@@ -28,9 +28,9 @@ impl ModelSchema {
         let properties = properties.as_object().unwrap();
         // let add_props = model_properties.get("additionalProperties").unwrap();
 
-        let props_schema_vector: Vec<PropertySchema> = properties
+        let props_schema_vector: Vec<PropSchema> = properties
             .into_iter()
-            .map(|(key, value)| PropertySchema::build((key, value)))
+            .map(|(key, value)| PropSchema::build((key, value)))
             .collect();
 
         return ModelSchema {
@@ -46,7 +46,7 @@ impl ModelSchema {
 
 pub fn extract_models(models: &Map<String, Value>) {
     for (name, value) in models.iter() {
-        let model_schema = ModelSchema::build((name, value));
-        println!("{:#?}", model_schema);
+        let _model_schema = ModelSchema::build((name, value));
+        // println!("{:#?}", _model_schema);
     }
 }

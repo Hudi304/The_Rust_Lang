@@ -12,11 +12,11 @@ impl HttpMethod {
         match method {
             "get" | "GET" => Self::GET,
             "put" | "PUT" => Self::PUT,
-            "post" | "PUT" => Self::POST,
+            "post" | "POST" => Self::POST,
             "delete" | "DELETE" => Self::DELETE,
             "options" | "OPTIONS" => Self::OPTIONS,
             unknown_method => {
-                println!("Warning : Unknown HTTP method");
+                println!("Warning : Unknown HTTP method {unknown_method} ");
                 Self::GET
             }
         }

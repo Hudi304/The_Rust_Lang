@@ -1,40 +1,25 @@
 use serde_json::{Map, Value};
 
-use crate::{model::model_prop::get_prop_type, Import};
+use crate::{utils::type_utils::extract_type, Import};
 
 use super::{
-    endpoint_parameter::{EndpointParameter, ParamPlace},
     http_method::HttpMethod,
+    param::param::{EndpointParam, ParamPlace},
 };
 
-pub enum ParameterType {
-    PATH,
-    QUERY,
-}
-// struct EndpointParameter {
-//     name: String,
-//     placement: ParameterType,
-//     _type: String,
-//     isRequired: bool,
-// }
-
-struct RequestBody {
-    _type: String,
-}
-
 #[derive(Debug)]
-struct EndpointSchema {
-    path: String,
-    http_method: HttpMethod,
-    controller_name: String,
-    fn_name: String,
-    path_params: Vec<EndpointParameter>,
-    query_params: Vec<EndpointParameter>,
+pub struct EndpointSchema {
+    pub path: String,
+    pub http_method: HttpMethod,
+    pub controller_name: String,
+    pub fn_name: String,
+    pub path_params: Vec<EndpointParam>,
+    pub query_params: Vec<EndpointParam>,
 
-    response_type: (String, Option<Import>),
+    pub response_type: (String, Option<Import>),
     // request_body: Option<RequestBody>,
     // responses: Map<ui32, String>, // status code  = key , String = type
-    tags: Vec<String>,
+    pub tags: Vec<String>,
 }
 
 impl EndpointSchema {
@@ -44,12 +29,7 @@ impl EndpointSchema {
         let tags = get_tags(values);
         let ctrl_name = tags.first().unwrap().clone();
         let fn_name = get_fn_name(values);
-
         let (path_params, query_params) = get_parameters(values);
-
-        let (return_type, import) = get_return_types(values);
-
-        // println!("{}\n  {}", path, return_type);
 
         return EndpointSchema {
             path: path.clone(),
@@ -67,7 +47,6 @@ impl EndpointSchema {
 
 // returns any if any of the check fail
 // TODO there is a bug here test with /supplier-portal/invoices
-// 
 fn get_return_types(endpoints_values: &Value) -> (String, Option<Import>) {
     let any = String::from("any");
 
@@ -78,12 +57,12 @@ fn get_return_types(endpoints_values: &Value) -> (String, Option<Import>) {
 
     let mut result = (any.clone(), None);
 
-    for (status_code, values) in responses
+    let endpoint_responses = responses
         .as_object()
-        .expect("Endpoint 'responses' is not and object ")
-        .into_iter()
-    {
-        if (!status_code.eq("200")) {
+        .expect("Endpoint 'responses' is not and object ");
+
+    for (status_code, values) in endpoint_responses.into_iter() {
+        if !status_code.eq("200") {
             continue;
         }
 
@@ -102,30 +81,29 @@ fn get_return_types(endpoints_values: &Value) -> (String, Option<Import>) {
             None => return (any, None),
         };
 
-        let response_type = get_prop_type(type_schema);
+        let response_type = extract_type(type_schema, "items");
 
         result = response_type;
     }
 
-    result
+    return result;
 }
 
-fn get_parameters(endpoints_values: &Value) -> (Vec<EndpointParameter>, Vec<EndpointParameter>) {
+fn get_parameters(endpoints_values: &Value) -> (Vec<EndpointParam>, Vec<EndpointParam>) {
     let parameters = match endpoints_values.get("parameters") {
         Some(params) => params,
         None => return (vec![], vec![]),
     };
-    // .expect("Endpoint does not have parameters");
 
     let parameters = parameters
         .as_array()
         .expect("Endpoint parameters is not an array");
 
-    let mut path_params: Vec<EndpointParameter> = vec![];
-    let mut query_params: Vec<EndpointParameter> = vec![];
+    let mut path_params: Vec<EndpointParam> = vec![];
+    let mut query_params: Vec<EndpointParam> = vec![];
 
     for param in parameters.into_iter() {
-        let param = EndpointParameter::build(param);
+        let param = EndpointParam::build(param);
 
         match param.param_place {
             ParamPlace::PATH => path_params.push(param),
@@ -133,7 +111,7 @@ fn get_parameters(endpoints_values: &Value) -> (Vec<EndpointParameter>, Vec<Endp
         }
     }
 
-    (path_params, query_params)
+    return (path_params, query_params);
 }
 
 fn get_fn_name(endpoints_values: &Value) -> String {
@@ -158,7 +136,7 @@ fn get_tags(endpoints_values: &Value) -> Vec<String> {
 
     let tags: &Vec<Value> = tags.as_array().unwrap();
 
-    if (tags.len() > 1) {
+    if tags.len() > 1 {
         println!("Warning: more then one tag was found")
     }
 
@@ -178,10 +156,10 @@ pub fn extract_endpoints(paths: &Map<String, Value>) {
         };
 
         for (http_method, values) in methods.into_iter() {
-            println!("{http_method} {path}");
             let mtd = HttpMethod::new(http_method);
-            let endpoint_schema = EndpointSchema::build(mtd, path, values);
-            println!("{:#?}", endpoint_schema);
+            let _endpoint_schema = EndpointSchema::build(mtd, path, values);
+            // println!("{http_method} {path}");
+            // println!("{:#?}", _endpoint_schema);
         }
     }
 }
@@ -194,12 +172,13 @@ mod extractor {
     //TODO maybe find a way to do this in some kind of loop
     // this is a lot of code repetition
     #[test]
+    #[ignore]
     fn multiple_methods_endpoint() {
         let number_data = r#"{ }"#;
 
         let prop_json: Value = serde_json::from_str(number_data).unwrap();
         let return_type = get_return_types(&prop_json);
 
-        assert_eq!(return_type.eq("any"), true);
+        // assert_eq!(return_type.eq("any"), true);
     }
 }

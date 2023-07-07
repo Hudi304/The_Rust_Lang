@@ -1,4 +1,4 @@
-use serde_json::{Map, Value};
+use serde_json::Value;
 
 use crate::utils::type_utils::get_ref;
 
@@ -22,14 +22,14 @@ impl ParamPlace {
 }
 
 #[derive(Debug)]
-pub struct EndpointParameter {
+pub struct EndpointParam {
     pub param_place: ParamPlace,
     pub param_name: String,
     pub param_type: String,
 }
 
-impl EndpointParameter {
-    pub fn build(param_value: &Value) -> EndpointParameter {
+impl EndpointParam {
+    pub fn build(param_value: &Value) -> EndpointParam {
         let param_place = param_value
             .get("in")
             .expect("Parameter does not specify it's type");
@@ -37,7 +37,7 @@ impl EndpointParameter {
         let param_place = param_place.as_str().expect("key 'in' is not a string");
         let param_place = ParamPlace::new(param_place);
 
-        EndpointParameter {
+        EndpointParam {
             param_place: param_place,
             param_type: get_param_type(param_value),
             param_name: get_param_name(param_value),

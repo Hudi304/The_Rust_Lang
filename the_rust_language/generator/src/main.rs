@@ -6,11 +6,8 @@ mod endpoints;
 mod model;
 mod utils;
 
-use std::path;
-
-use endpoints::endpoint_extractor;
+use endpoints::extractor;
 use model::model_extractor;
-use utils::type_utils;
 
 use serde::{self, Deserialize, Serialize};
 use serde_json::{Map, Value};
@@ -58,8 +55,8 @@ fn main() {
         Value::Object(map) => map,
         _ => panic!("Root json does not have a 'paths' key"),
     };
-    
-    endpoint_extractor::extract_endpoints(&paths);
+
+    extractor::extract_endpoints(&paths);
 
     let schemas: Map<String, Value> = match schemas {
         Value::Object(map) => map,
@@ -92,10 +89,8 @@ fn main() {
         })
         .collect();
 
-    // model_extractor::extract_models(&models);
-    endpoint_extractor::extract_endpoints(&paths);
-
+    model_extractor::extract_models(&models);
+    extractor::extract_endpoints(&paths);
 
     println!("--------------------------------------------!");
-
 }

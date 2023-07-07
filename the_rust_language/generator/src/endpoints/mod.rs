@@ -1,3 +1,4 @@
-pub mod endpoint_extractor;
-pub mod endpoint_parameter;
+pub mod extractor;
+pub mod param;
 pub mod http_method;
+
