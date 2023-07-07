@@ -2,7 +2,8 @@ use serde_json::Value;
 use std::fmt;
 use std::fmt::Debug;
 
-use crate::{utils::type_utils::extract_type, Import};
+use crate::common::import::Import;
+use crate::utils::type_utils::extract_type;
 
 // TODO this might be a good idea when
 // pub enum PropType {

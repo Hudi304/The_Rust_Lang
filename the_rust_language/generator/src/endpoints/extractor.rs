@@ -1,6 +1,6 @@
 use serde_json::{Map, Value};
 
-use crate::{Import, utils::type_utils::extract_type};
+use crate::{common::import::Import, utils::type_utils::extract_type};
 
 use super::{
     http_method::HttpMethod,

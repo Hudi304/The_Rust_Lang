@@ -1,6 +1,6 @@
 use serde_json::Value;
 
-use crate::Import;
+use crate::common::import::Import;
 
 pub fn clean_model_name(name: &String) -> String {
     return name.replace("`", "");
@@ -203,6 +203,28 @@ mod obj_extract_type {
         let (schema_type, imp) = extract_type(&schema, secondary_key);
 
         assert_eq!(schema_type.eq("Sort10[]"), true);
+        assert_eq!(imp.unwrap().name.eq("Sort10"), true);
+    }
+}
+
+#[cfg(test)]
+mod endpoint_return_type {
+
+    use super::*;
+
+    static secondary_key: &str = "items";
+
+    #[test]
+    fn top_level_ref_model_name_and_import() {
+        let obj_data = r#"
+        {
+            "$ref": "/components/schemas/Sort10"
+        }"#;
+
+        let schema: Value = serde_json::from_str(obj_data).unwrap();
+        let (schema_type, imp) = extract_type(&schema, secondary_key);
+
+        assert_eq!(schema_type.eq("Sort10"), true);
         assert_eq!(imp.unwrap().name.eq("Sort10"), true);
     }
 }

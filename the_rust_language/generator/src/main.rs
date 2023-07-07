@@ -2,44 +2,18 @@ pub mod config;
 pub mod http;
 
 mod endpoints;
+mod enums;
 mod model;
+
+mod common;
 mod utils;
 
 use endpoints::extractor;
 use model::model_extractor;
 
-use serde::{self, Deserialize, Serialize};
 use serde_json::{Map, Value};
 
-#[derive(Debug)]
-pub struct Import {
-    pub name: String,
-    pub path: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct SchemaProperty {
-    property_type: String,
-    nullable: bool,
-}
-
-// struct EnumSchema {
-//     enum_values: Vec<String>,
-//     enum_type: String,
-// }
-
-// TODO try implementing Debug for external struct
-// impl fmt::Debug for serde_json::Map<K, V> {
-//     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-//         for (key, value) in self.into_iter() {
-//             write!(f, "[{} : {}]", key, value)
-//         }
-//         return fmt::Result;
-//     }
-// }
-
 // TODO implement some kind of testing for a whole swagger.json
-
 // TODO implement a global warning system for stuff like finding some primitive type that is not yet defined
 fn main() {
     let settings_path = "./local.json".to_owned();
