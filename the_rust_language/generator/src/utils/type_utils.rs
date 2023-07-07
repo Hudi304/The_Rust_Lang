@@ -78,7 +78,7 @@ pub fn extract_type(schema: &Value, secondary_key: &str) -> (String, Option<Impo
         (Some(st), None) => {
             // TODO this still needs a refactor
             if st.eq("array") {
-                if (items.is_some()) {
+                if items.is_some() {
                     let items_type = items.unwrap().get(type_key).unwrap().as_str().unwrap();
                     return (items_type.to_owned() + "[]", import);
                 }
