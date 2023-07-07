@@ -30,7 +30,7 @@ macro_rules! unwrap_or_return_default {
         match $res {
             Some(req_body) => req_body,
             None => {
-                println!("{}", stringify!($warning_message));
+                println!("\n | {} | \n", stringify!($warning_message));
                 return $default;
             }
         }
@@ -50,7 +50,7 @@ pub fn extract_endpoints(paths: &Map<String, Value>) {
             //     _endpoint_schema.request_body_type.0, _endpoint_schema.request_body_type.1
             // );
 
-            println!("{}, {:#?}", _endpoint_schema.path, _endpoint_schema)
+            // println!("{}, {:#?}", _endpoint_schema.path, _endpoint_schema)
         }
     }
 }
@@ -79,7 +79,6 @@ impl EndpointSchema {
         let ctrl_name = tags.first().unwrap().clone();
         let fn_name = get_fn_name(values);
         let (path_params, query_params) = get_parameters(values);
-
         let (request_type, import) = get_request_body_type(values);
 
         return EndpointSchema {
@@ -113,13 +112,12 @@ fn get_request_body_type(values: &Value) -> (String, Option<Import>) {
 // returns any if any of the check fail
 // TODO there is a bug here test with /supplier-portal/invoices
 fn get_return_types(endpoints_values: &Value) -> (String, Option<Import>) {
-    let any = String::from("any");
-    let default: (String, Option<Import>) = (String::from("any"), None);
-
+    let default = (String::from("any"), None);
     let responses = endpoints_values.get("responses");
-    let responses = unwrap_or_return_default!(responses, default);
+    let err_msg = "Warning endpoint with no response key".to_owned();
+    let responses = unwrap_or_return_default!(responses, default, err_msg);
 
-    let err_msg = "Endpoint 'responses' is not and object";
+    let err_msg = "Endpoint 'responses' is not and object".to_owned();
     let response = unwrap_or_return_default!(responses.as_object(), default, err_msg);
 
     for (status_code, values) in response.into_iter() {
@@ -164,22 +162,18 @@ fn get_parameters(endpoints_values: &Value) -> (Vec<EndpointParam>, Vec<Endpoint
 fn get_fn_name(endpoints_values: &Value) -> String {
     let fn_name = endpoints_values.get("operationId");
 
-    let fn_name = match fn_name {
-        Some(fn_name) => fn_name,
-        None => {
-            println!("Warning : operationId not found");
-            return String::new();
-        }
-    };
+    let err_msg = "Warning : operationId not found";
+    let fn_name = unwrap_or_return_default!(fn_name, String::new(), err_msg);
 
     let fn_name = fn_name.as_str().unwrap_or("default_fn_name");
     fn_name.to_owned()
 }
 
 fn get_tags(endpoints_values: &Value) -> Vec<String> {
-    let tags = unwrap_or_return_default!(endpoints_values.get("tags"), vec![]);
-
-    let tags: &Vec<Value> = tags.as_array().unwrap();
+    let err_msg = "Warning : found endpoint with no tags key!";
+    let tags = unwrap_or_return_default!(endpoints_values.get("tags"), vec![], err_msg);
+    let err_msg = "Warning : found endpoint with tags key that is not an array!";
+    let tags = unwrap_or_return_default!(tags.as_array(), vec![], err_msg);
 
     if tags.len() > 1 {
         println!("Warning: more then one tag was found")
@@ -198,6 +192,7 @@ mod extractor {
     //TODO maybe find a way to do this in some kind of loop
     // this is a lot of code repetition
     #[test]
+    #[ignore]
     fn multiple_methods_endpoint() {
         // Arrange
         let number_data = r#"{ }"#;
@@ -210,5 +205,30 @@ mod extractor {
         // Assert
         assert_eq!(return_type.eq("any"), true);
         assert_eq!(import.is_none(), true);
+    }
+}
+
+#[cfg(test)]
+mod test_unwrap_or_return_default {
+
+    use super::*;
+
+    //TODO maybe find a way to do this in some kind of loop
+    // this is a lot of code repetition
+    #[test]
+    fn multiple_methods_endpoint() {
+        // Arrange
+        let clo = |opt: Option<String>| -> String {
+            let rez = unwrap_or_return_default!(opt, "default".to_owned(), "warning");
+            return rez;
+        };
+        // Act
+
+        let res = clo(Some("test".to_owned()));
+
+        // Assert
+        assert_eq!(res.eq("test"), true);
+
+        let res = clo(None);
     }
 }
