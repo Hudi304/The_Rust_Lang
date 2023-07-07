@@ -45,11 +45,6 @@ pub fn extract_endpoints(paths: &Map<String, Value>) {
             let mtd = HttpMethod::new(http_method);
             let _endpoint_schema = EndpointSchema::build(mtd, path, values);
             // println!("{http_method} {path}");
-            // println!(
-            //     "{} {:?} ",
-            //     _endpoint_schema.request_body_type.0, _endpoint_schema.request_body_type.1
-            // );
-
             // println!("{}, {:#?}", _endpoint_schema.path, _endpoint_schema)
         }
     }
@@ -116,7 +111,6 @@ fn get_return_types(endpoints_values: &Value) -> (String, Option<Import>) {
     let responses = endpoints_values.get("responses");
     let err_msg = "Warning endpoint with no response key".to_owned();
     let responses = unwrap_or_return_default!(responses, default, err_msg);
-
     let err_msg = "Endpoint 'responses' is not and object".to_owned();
     let response = unwrap_or_return_default!(responses.as_object(), default, err_msg);
 

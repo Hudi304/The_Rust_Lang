@@ -13,9 +13,9 @@ use model::model_extractor;
 
 use serde_json::{Map, Value};
 
-// TODO implement some kind of testing for a whole swagger.json
-// TODO implement a global warning system for stuff like finding some primitive type that is not yet defined
-fn main() {
+use colored::*;
+
+fn pipeline() {
     let settings_path = "./local.json".to_owned();
     let locals = config::get_locals(settings_path);
     let swagger_json_url = locals.swagger_url + &locals.swagger_path[..];
@@ -64,6 +64,15 @@ fn main() {
 
     model_extractor::extract_models(&models);
     extractor::extract_endpoints(&paths);
+}
 
-    println!("--------------------------------------------!");
+// TODO implement some kind of testing for a whole swagger.json
+// TODO implement a global warning system for stuff like finding some primitive type that is not yet defined
+fn main() {
+    pipeline();
+
+    let var = "this is blue".blue();
+
+    println!("{}", var);
+    // println!("--------------------------------------------!".blue());
 }
