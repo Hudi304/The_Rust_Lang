@@ -4,5 +4,8 @@
     "immut",
     "minigrep",
     "reqwest"
+  ],
+  "rust-analyzer.linkedProjects": [
+    "./the_rust_language/generator/Cargo.toml"
   ]
 }

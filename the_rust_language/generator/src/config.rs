@@ -8,7 +8,7 @@ pub struct LocalFileFormat {
 }
 
 pub fn get_locals(locals_path: String) -> LocalFileFormat {
-    let locals = &fs::read_to_string(locals_path).expect("Could not read ROOT/local.json file")[..];
+    let locals = &fs::read_to_string(locals_path).expect("\n [ERROR] Could not read ROOT/local.json file \n")[..];
     let locals = serde_json::from_str::<LocalFileFormat>(locals)
         .expect("Could not deserialize ROOT/local.json file");
 
