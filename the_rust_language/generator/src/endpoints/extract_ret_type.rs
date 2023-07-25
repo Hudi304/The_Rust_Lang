@@ -18,6 +18,7 @@ pub fn get_return_types(endpoints_values: &Value) -> (String, Option<Import>) {
   let response = unwrap_or_return_default!(responses.as_object(), default, err_msg);
 
   for (status_code, values) in response.into_iter() {
+      // TODO handle all the status codes
       match status_code.as_str() {
           "200" => (),
           "201" => (),

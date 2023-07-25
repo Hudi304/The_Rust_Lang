@@ -98,7 +98,7 @@ mod prim_extract_type {
 
     use super::*;
 
-    static secondary_key: &str = "items";
+    static SECONDARY_KEY: &str = "items";
 
     //TODO maybe find a way to do this in some kind of loop
     // this is a lot of code repetition
@@ -111,7 +111,7 @@ mod prim_extract_type {
 
         // Act
         let schema: Value = serde_json::from_str(number_data).unwrap();
-        let (schema_type, imp) = extract_type(&schema, secondary_key);
+        let (schema_type, imp) = extract_type(&schema, SECONDARY_KEY);
 
         // Assert
         assert_eq!(schema_type.eq("number"), true);
@@ -123,7 +123,7 @@ mod prim_extract_type {
         let string_data = r#"{ "type": "string" }"#;
 
         let schema: Value = serde_json::from_str(string_data).unwrap();
-        let (schema_type, imp) = extract_type(&schema, secondary_key);
+        let (schema_type, imp) = extract_type(&schema, SECONDARY_KEY);
 
         assert_eq!(schema_type.eq("string"), true);
         assert_eq!(imp.is_none(), true);
@@ -134,7 +134,7 @@ mod prim_extract_type {
         let bool_data = r#"{ "type": "bool" }"#;
 
         let schema: Value = serde_json::from_str(bool_data).unwrap();
-        let (schema_type, imp) = extract_type(&schema, secondary_key);
+        let (schema_type, imp) = extract_type(&schema, SECONDARY_KEY);
 
         assert_eq!(schema_type.eq("bool"), true);
         assert_eq!(imp.is_none(), true);
@@ -146,7 +146,7 @@ mod prim_extract_type {
         let obj_data = r#"{ "type": "object" }"#;
 
         let schema: Value = serde_json::from_str(obj_data).unwrap();
-        let (schema_type, imp) = extract_type(&schema, secondary_key);
+        let (schema_type, imp) = extract_type(&schema, SECONDARY_KEY);
 
         assert_eq!(schema_type.eq("object"), true);
         assert_eq!(imp.is_none(), true);
@@ -164,7 +164,7 @@ mod prim_extract_type {
         }"#;
 
         let schema: Value = serde_json::from_str(obj_data).unwrap();
-        let (schema_type, imp) = extract_type(&schema, secondary_key);
+        let (schema_type, imp) = extract_type(&schema, SECONDARY_KEY);
 
         assert_eq!(schema_type.eq("string[]"), true);
         assert_eq!(imp.is_none(), true);
@@ -176,7 +176,7 @@ mod obj_extract_type {
 
     use super::*;
 
-    static secondary_key: &str = "items";
+    static SECONDARY_KEY: &str = "items";
 
     #[test]
     fn top_level_ref_model_name_and_import() {
@@ -186,7 +186,7 @@ mod obj_extract_type {
         }"#;
 
         let schema: Value = serde_json::from_str(obj_data).unwrap();
-        let (schema_type, imp) = extract_type(&schema, secondary_key);
+        let (schema_type, imp) = extract_type(&schema, SECONDARY_KEY);
 
         assert_eq!(schema_type.eq("Sort10"), true);
         assert_eq!(imp.unwrap().name.eq("Sort10"), true);
@@ -203,7 +203,7 @@ mod obj_extract_type {
         }"#;
 
         let schema: Value = serde_json::from_str(obj_data).unwrap();
-        let (schema_type, imp) = extract_type(&schema, secondary_key);
+        let (schema_type, imp) = extract_type(&schema, SECONDARY_KEY);
 
         assert_eq!(schema_type.eq("Sort10[]"), true);
         assert_eq!(imp.unwrap().name.eq("Sort10"), true);
@@ -217,7 +217,7 @@ mod endpoint_return_type {
 
     use super::*;
 
-    static secondary_key: &str = "items";
+    static SECONDARY_KEY: &str = "items";
 
     pub fn read_json(path: &str) -> Value {
         let error_message = format!("\n     Could not read {path}.json file \n");
@@ -239,7 +239,7 @@ mod endpoint_return_type {
         let schema = schema.get("schema").unwrap();
 
         // Act
-        let (schema_type, imp) = extract_type(schema, secondary_key);
+        let (schema_type, imp) = extract_type(schema, SECONDARY_KEY);
         // println!("\n\n schema_type : {} \n\n", schema_type);
         // println!("\n\n import : {:?} \n\n", imp);
 

@@ -3,7 +3,7 @@ use crate::unwrap_or_return_default;
 
 #[allow(unused_variables)]
 pub fn get_tags(endpoints_values: &Value) -> Vec<String> {
-    
+
   let err_msg = "Warning : found endpoint with no tags key!";
   let tags = unwrap_or_return_default!(endpoints_values.get("tags"), vec![], err_msg);
 
@@ -19,4 +19,27 @@ pub fn get_tags(endpoints_values: &Value) -> Vec<String> {
       .collect()
 }
 
-// TODO test this 
+#[cfg(test)]
+mod tags {
+
+    // use super::*;
+
+    //TODO maybe find a way to do this in some kind of loop
+    // this is a lot of code repetition
+    #[test]
+    #[ignore]
+    fn multiple_methods_endpoint() {
+        // Arrange
+        // let number_data = r#"{ "tags": ["tag1", "tag2"] }"#;
+
+        // Act
+        // let prop_json: Value = serde_json::from_str(number_data).unwrap();
+        // let tags : Vec<String>= get_tags(&prop_json);
+        // println!("{}, {:?} ", return_type, import);
+
+        // Assert
+
+        //TODO find a way to compare arrays
+        // assert_eq!(tags[0].eq("tag1".to_owned()), true);
+    }
+}
